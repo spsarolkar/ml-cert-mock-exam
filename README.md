@@ -1,6 +1,6 @@
 # 🎯 GCP Professional Machine Learning Engineer - Mock Exam
 
-This is a practice web app for the **Google Cloud Certified - Professional Machine Learning Engineer** exam. It helps you get familiar with real exam topics and question formats.
+This is a practice web app for the **Google Cloud Certified - Professional Machine Learning Engineer** exam. It helps you get familiar with real exam topics and question formats. This can be accessed at [GCP ML Engineer Mock Exam](https://spsarolkar.github.io/ml-cert-mock-exam/)
 
 ## 📌 Features
 
@@ -25,14 +25,14 @@ This is a practice web app for the **Google Cloud Certified - Professional Machi
    Or launch mock-test.html directly
 
 📁 Project Structure
-
+```
 .
 ├── index.html         # Landing page
 ├── mock-test.html     # Main mock exam app
 ├── _data/
 │   └── sections/      # YAML question files (section1.yml to section6.yml)
 └── README.md
-
+```
 🧠 How It Works
 Questions are categorized by exam domain (sections)
 
