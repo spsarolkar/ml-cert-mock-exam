@@ -1,0 +1,308 @@
+- question: 'A data science team is working on a new ML project and needs to explore and preprocess a large dataset stored across Cloud Storage and BigQuery. The project requires extensive data cleaning and transformation. Which Google Cloud service is recommended for efficient data preprocessing for ML pipelines?'
+  options:
+  - Cloud Functions
+  - Cloud Run
+  - Dataflow
+  - Cloud Composer
+  answer: 3
+  tags:
+  - Data Preprocessing
+  - Dataflow
+- question: 'An ML Engineer is developing a new model and wants to ensure that all generated features are consistently defined and easily discoverable for reuse across different models and teams. Which Vertex AI service should be utilized for this purpose?'
+  options:
+  - Vertex AI Experiments
+  - Vertex AI Model Registry
+  - Vertex AI Feature Store
+  - Vertex AI Pipelines
+  answer: 3
+  tags:
+  - Feature Engineering
+  - Vertex AI Feature Store
+- question: 'A team of ML engineers and data scientists needs a collaborative environment for model prototyping using Jupyter notebooks on Google Cloud. They require shared access, version control integration, and strong security practices. Which Jupyter backend on Google Cloud is explicitly mentioned for these capabilities?'
+  options:
+  - Colab Enterprise
+  - Deep Learning VMs
+  - Google Kubernetes Engine (GKE)
+  - Compute Engine instances
+  answer: 1
+  tags:
+  - Model Prototyping
+  - Jupyter Notebooks
+  - Colab Enterprise
+- question: 'When managing datasets in Vertex AI, what is a crucial consideration related to privacy, especially when dealing with sensitive information?'
+  options:
+  - Maximizing data volume for training
+  - Handling sensitive data such as PII and PHI
+  - Minimizing storage costs
+  - Ensuring data freshness in real-time
+  answer: 2
+  tags:
+  - Data Governance
+  - Privacy
+- question: 'An ML Engineer is experimenting with different open-source and proprietary foundation models for a text generation task. Which Vertex AI capability allows leveraging a variety of these models for prototyping?'
+  options:
+  - Vertex AI Feature Store
+  - Vertex AI Model Monitoring
+  - Model Garden
+  - Vertex AI TensorBoard
+  answer: 3
+  tags:
+  - Foundation Models
+  - Model Prototyping
+  - Model Garden
+- question: 'A financial services company needs to ensure that access to sensitive customer data used for ML model training is strictly controlled and audited. Which Google Cloud service is fundamental for managing access control and permissions for datasets?'
+  options:
+  - Cloud Functions
+  - Cloud IAM (Identity and Access Management)
+  - Cloud Storage Transfer Service
+  - Cloud CDN
+  answer: 2
+  tags:
+  - Data Governance
+  - Security
+  - IAM
+- question: 'An ML team wants to streamline the process of extracting, transforming, and loading (ETL) large volumes of structured and unstructured data for their ML models. Which Google Cloud service is typically used for large-scale ETL and data orchestration?'
+  options:
+  - Cloud SQL
+  - Cloud Dataproc
+  - Cloud Load Balancing
+  - Cloud Monitoring
+  answer: 2
+  tags:
+  - Data Preprocessing
+  - ETL
+  - Cloud Dataproc
+- question: 'During the model prototyping phase, an ML Engineer is evaluating various model architectures and hyperparameters. They need a service that provides robust experiment tracking and visualization capabilities. Which Vertex AI service is designed for this?'
+  options:
+  - Vertex AI Pipelines
+  - Vertex AI Workbench
+  - Vertex AI Experiments
+  - Vertex AI Model Registry
+  answer: 3
+  tags:
+  - Model Prototyping
+  - Experiment Tracking
+  - Vertex AI Experiments
+- question: 'A development team is building a new ML application and needs to store and version their trained models, along with their metadata and lineage, to ensure traceability and reproducibility. Which Vertex AI service is designed for centralized model management?'
+  options:
+  - Vertex AI Feature Store
+  - Vertex AI Model Registry
+  - Vertex AI Endpoints
+  - Vertex AI Training
+  answer: 2
+  tags:
+  - Model Management
+  - Vertex AI Model Registry
+- question: 'A data scientist is exploring a large dataset stored in BigQuery for potential features. They need to perform ad-hoc SQL queries and simple transformations efficiently within a notebook environment. Which Google Cloud tool facilitates this interactive exploration of BigQuery data?'
+  options:
+  - Cloud Functions
+  - Dataflow
+  - Vertex AI Workbench
+  - Cloud Pub/Sub
+  answer: 3
+  tags:
+  - Data Exploration
+  - BigQuery
+  - Vertex AI Workbench
+- question: 'A company needs to implement a robust data versioning strategy for their ML datasets to ensure that models are trained on specific, reproducible data snapshots. Which best practice or service aids in dataset versioning?'
+  options:
+  - Storing all data in a single, mutable CSV file
+  - Relying solely on git for large data files
+  - Utilizing Cloud Storage versioning or Data Catalog
+  - Only keeping the latest version of the dataset
+  answer: 3
+  tags:
+  - Data Management
+  - Data Versioning
+- question: 'An ML team is dealing with a significant volume of unstructured text data that requires advanced natural language processing (NLP) for feature extraction. Which Google Cloud service is best suited for scalable NLP preprocessing?'
+  options:
+  - Cloud SQL
+  - Cloud Natural Language API
+  - Cloud Data Loss Prevention (DLP)
+  - Cloud Monitoring
+  answer: 2
+  tags:
+  - Data Preprocessing
+  - NLP
+- question: 'During model prototyping, an ML Engineer needs to quickly spin up a powerful, pre-configured environment with common ML frameworks and libraries. Which Vertex AI capability provides such an environment for Jupyter notebooks?'
+  options:
+  - Vertex AI Pipelines
+  - Vertex AI Prediction
+  - Vertex AI Workbench
+  - Vertex AI Model Monitoring
+  answer: 3
+  tags:
+  - Model Prototyping
+  - Vertex AI Workbench
+- question: 'When managing models in Vertex AI, what is a key benefit of using Vertex AI Model Registry?'
+  options:
+  - Automatically performing real-time predictions
+  - Centralizing the management and discovery of ML models
+  - Orchestrating complex ML pipelines
+  - Providing continuous model evaluation metrics
+  answer: 2
+  tags:
+  - Model Management
+  - Vertex AI Model Registry
+- question: 'A team is working with sensitive customer data for an ML project. Before storing it in Cloud Storage, they need to ensure that Personally Identifiable Information (PII) is masked or tokenized. Which Google Cloud service can help with de-identifying sensitive data?'
+  options:
+  - Cloud CDN
+  - Cloud Load Balancing
+  - Cloud Data Loss Prevention (DLP)
+  - Cloud DNS
+  answer: 3
+  tags:
+  - Data Privacy
+  - DLP
+- question: 'An ML team needs to ensure data consistency when feeding data to their models, especially when dealing with streaming data. Which Google Cloud service is typically used for real-time data ingestion and stream processing before it reaches a feature store or model?'
+  options:
+  - BigQuery
+  - Cloud Pub/Sub
+  - Cloud SQL
+  - Cloud Storage
+  answer: 2
+  tags:
+  - Data Ingestion
+  - Stream Processing
+- question: 'To accelerate model prototyping, an ML Engineer decides to use pre-built components or reusable code templates. What Google Cloud concept emphasizes leveraging such pre-built elements for efficient development?'
+  options:
+  - Custom training
+  - Low-code AI solutions
+  - High-performance computing
+  - Manual feature engineering
+  answer: 2
+  tags:
+  - Model Prototyping
+  - Low-code AI
+- question: 'Which aspect of model management focuses on connecting model versions to the datasets they were trained on, and the code used to train them, for auditing and debugging purposes?'
+  options:
+  - Model deployment
+  - Model monitoring
+  - Model and data lineage
+  - Model serving
+  answer: 3
+  tags:
+  - Model Management
+  - Lineage
+- question: 'A data scientist wants to explore a large dataset of semi-structured log files to identify patterns for anomaly detection. Which Google Cloud service is best suited for querying and analyzing such data, offering flexible schema capabilities?'
+  options:
+  - Cloud SQL
+  - BigQuery
+  - Cloud Spanner
+  - Cloud Datastore
+  answer: 2
+  tags:
+  - Data Exploration
+  - Semi-structured Data
+- question: 'An ML team is developing models using various open-source frameworks like Scikit-learn and XGBoost. When moving from prototyping to training, they need to select a compute environment that supports these diverse frameworks. Which Vertex AI service allows custom training with various frameworks?'
+  options:
+  - AutoML Tables
+  - Vertex AI Custom Training
+  - BigQuery ML
+  - Vertex AI Agent Builder
+  answer: 2
+  tags:
+  - Model Prototyping
+  - Custom Training
+- question: 'What is a critical consideration for managing datasets that are used for multiple ML models to ensure consistency and prevent data duplication?'
+  options:
+  - Creating separate copies of data for each model
+  - Centralized data management and versioning
+  - Storing data only on local machines
+  - Avoiding any data transformations
+  answer: 2
+  tags:
+  - Data Management
+  - Data Consistency
+- question: 'A company has a vast amount of unstructured data (e.g., customer reviews, social media posts) that needs to be preprocessed into features for an NLP model. Which Google Cloud service offers scalable and managed processing for such data?'
+  options:
+  - Cloud SQL
+  - Dataflow
+  - Cloud Functions
+  - Cloud Run
+  answer: 2
+  tags:
+  - Data Preprocessing
+  - Unstructured Data
+  - Dataflow
+- question: 'When prototyping, a data scientist needs to quickly visualize the distribution of features and identify outliers in a BigQuery dataset. Which feature of Vertex AI Workbench or BigQuery Console aids in this ad-hoc data exploration?'
+  options:
+  - Built-in data visualization tools
+  - Automated report generation
+  - Direct integration with SAP
+  - Real-time data streaming
+  answer: 1
+  tags:
+  - Data Exploration
+  - Visualization
+- question: 'An ML Engineer needs to store and manage a large collection of trained models, including different versions and their associated metrics, in a central repository. Which Vertex AI service is specifically designed for this purpose?'
+  options:
+  - Vertex AI Feature Store
+  - Vertex AI Pipelines
+  - Vertex AI Model Registry
+  - Vertex AI Endpoints
+  answer: 3
+  tags:
+  - Model Management
+  - Version Control
+- question: 'A team needs to prepare a dataset for ML training by de-identifying sensitive text fields, such as names and addresses, while preserving the analytical utility of the data. Which Google Cloud service provides this capability?'
+  options:
+  - Cloud Vision API
+  - Cloud Natural Language API
+  - Cloud Data Loss Prevention (DLP)
+  - Cloud Translation API
+  answer: 3
+  tags:
+  - Data Privacy
+  - DLP
+- question: 'What is a key benefit of using a Feature Store, like Vertex AI Feature Store, in a collaborative ML environment?'
+  options:
+  - It automates model deployment.
+  - It ensures consistent feature definitions and reuse across models.
+  - It performs real-time model monitoring.
+  - It provides continuous integration for pipelines.
+  answer: 2
+  tags:
+  - Feature Engineering
+  - Collaboration
+- question: 'An ML Engineer is debugging a model training job that is failing due to data format issues. Which aspect of data exploration and preprocessing is crucial for identifying and rectifying such issues early in the ML lifecycle?'
+  options:
+  - Data validation
+  - Model explainability
+  - Hyperparameter tuning
+  - Model serving
+  answer: 1
+  tags:
+  - Data Preprocessing
+  - Data Validation
+- question: 'To ensure long-term success of AI-based applications, the exam guide mentions close collaboration with other job roles. Which of these roles is explicitly highlighted as working with the ML Engineer?'
+  options:
+  - Network Administrator
+  - Data Engineer
+  - Frontend Developer
+  - Database Administrator
+  answer: 2
+  tags:
+  - Collaboration
+  - MLOps
+- question: 'When managing datasets for ML projects, what is a crucial security consideration regarding data access and usage?'
+  options:
+  - Making all data publicly accessible
+  - Implementing robust access controls and encryption
+  - Storing data only on personal devices
+  - Sharing credentials widely among team members
+  answer: 2
+  tags:
+  - Data Security
+  - Access Control
+- question: 'An ML team is leveraging Model Garden for rapid prototyping using foundation models. What is a key advantage of using Model Garden for this purpose?'
+  options:
+  - It requires extensive custom code development.
+  - It provides access to a wide range of pre-trained and adaptable models.
+  - It primarily focuses on batch inference.
+  - It is designed for manual model deployment only.
+  answer: 2
+  tags:
+  - Model Garden
+  - Prototyping
+  - Foundation Models

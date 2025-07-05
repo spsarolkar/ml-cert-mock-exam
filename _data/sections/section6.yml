@@ -1,0 +1,301 @@
+- question: 'An ML Engineer is responsible for a deployed AI solution and needs to establish metrics to continually assess its performance. Which Vertex AI service is specifically mentioned for establishing continuous evaluation metrics?'
+  options:
+  - Vertex AI Workbench
+  - Vertex AI Model Monitoring
+  - Vertex AI Experiments
+  - Vertex AI Feature Store
+  answer: 2
+  tags:
+  - Model Monitoring
+  - Evaluation Metrics
+- question: 'To ensure fairness and prevent unintended consequences in an AI solution, an ML Engineer must align with Google''s Responsible AI practices. What is a specific practice mentioned in this context?'
+  options:
+  - Monitoring for high latency
+  - Monitoring for bias
+  - Monitoring for storage usage
+  - Monitoring for network bandwidth
+  answer: 2
+  tags:
+  - Responsible AI
+  - Bias
+- question: 'A critical concern for deployed ML models is ensuring that the data distribution seen during training matches the data distribution during serving. What specific phenomenon is mentioned for monitoring to identify potential issues arising from this mismatch?'
+  options:
+  - Model overfitting
+  - Training-serving skew
+  - Data redundancy
+  - Concept drift
+  answer: 2
+  tags:
+  - Model Monitoring
+  - Training-Serving Skew
+- question: 'An ML Engineer needs to understand why an AI model made a particular prediction, especially in sensitive applications. Which Vertex AI capability is explicitly mentioned for providing insights into model behavior and prediction reasoning?'
+  options:
+  - Vertex AI Pipelines
+  - Vertex AI Model Registry
+  - Model explainability on Vertex AI
+  - Vertex AI Endpoints
+  answer: 3
+  tags:
+  - Model Explainability
+  - Vertex AI
+- question: 'When monitoring AI solutions, it is important to track how feature importance or contribution changes over time. Which specific type of drift is mentioned for monitoring to detect such changes?'
+  options:
+  - Data drift
+  - Concept drift
+  - Feature attribution drift
+  - Model accuracy drift
+  answer: 3
+  tags:
+  - Model Monitoring
+  - Feature Drift
+- question: 'An ML Engineer is designing a secure AI system to protect against unauthorized access or manipulation of sensitive data and models. What is a key consideration for building secure AI systems?'
+  options:
+  - Leaving all data buckets publicly accessible
+  - Protecting against unintentional exploitation of data or models (e.g., hacking)
+  - Using default passwords for all services
+  - Disabling all security logging
+  answer: 2
+  tags:
+  - AI Risks
+  - Security
+- question: 'A newly deployed recommendation model is showing a significant drop in its click-through rate (CTR) compared to its historical performance. What type of monitoring is crucial to detect this change in business outcome metrics?'
+  options:
+  - Hardware utilization monitoring
+  - Monitoring model performance against baselines
+  - Network latency monitoring
+  - Storage space monitoring
+  answer: 2
+  tags:
+  - Model Monitoring
+  - Performance Monitoring
+- question: 'What is the primary purpose of "Establishing continuous evaluation metrics" for an AI solution?'
+  options:
+  - To reduce deployment costs
+  - To ensure the model meets its performance objectives over time
+  - To increase training speed
+  - To simplify data preprocessing
+  answer: 2
+  tags:
+  - Model Monitoring
+  - Evaluation Metrics
+- question: 'An ML Engineer is troubleshooting a deployed model that is returning an unexpectedly high number of `NaN` (Not a Number) predictions. This suggests an issue with input data quality. Which type of monitoring would help identify this problem?'
+  options:
+  - Monitoring for network issues
+  - Monitoring for common training and serving errors
+  - Monitoring for GPU temperature
+  - Monitoring for storage usage
+  answer: 2
+  tags:
+  - Troubleshooting
+  - Serving Errors
+- question: 'When aligning with Google''s Responsible AI practices, which specific assessment involves evaluating the model''s outputs for fairness and bias across different user groups?'
+  options:
+  - Assessing AI solution readiness (e.g., fairness, bias)
+  - Assessing model complexity
+  - Assessing data transfer speeds
+  - Assessing memory consumption
+  answer: 1
+  tags:
+  - Responsible AI
+  - Fairness
+- question: 'A deployed model shows a consistent decrease in prediction accuracy over several weeks. This indicates that the relationship between the input features and the target variable has changed over time. What phenomenon does this represent?'
+  options:
+  - Data leakage
+  - Concept drift
+  - Model overfitting
+  - Training-serving skew
+  answer: 2
+  tags:
+  - Model Monitoring
+  - Concept Drift
+- question: 'Which Vertex AI service is mentioned for providing explainability insights, helping to understand feature attributions for model predictions?'
+  options:
+  - Vertex AI Pipelines
+  - Vertex AI Feature Store
+  - Explainable AI (on Vertex AI Prediction)
+  - Vertex AI Workbench
+  answer: 3
+  tags:
+  - Model Explainability
+  - Vertex AI
+- question: 'An ML Engineer needs to monitor the serving latency of a real-time prediction endpoint. Which type of metric is most relevant for this?'
+  options:
+  - Model accuracy
+  - Throughput
+  - Latency
+  - Recall
+  answer: 3
+  tags:
+  - Model Monitoring
+  - Latency
+- question: 'A company is deploying an AI system that makes critical decisions impacting individuals'' lives. Which aspect of Responsible AI is paramount to ensure the system is not making discriminatory decisions?'
+  options:
+  - Maximizing profit
+  - Ensuring fairness
+  - Minimizing explainability
+  - Avoiding human oversight
+  answer: 2
+  tags:
+  - Responsible AI
+  - Fairness
+- question: 'To detect if the input data distribution to a production model has changed significantly compared to the training data, what specific type of monitoring is crucial?'
+  options:
+  - Model accuracy monitoring
+  - Data drift monitoring
+  - Network performance monitoring
+  - Compute utilization monitoring
+  answer: 2
+  tags:
+  - Model Monitoring
+  - Data Drift
+- question: 'What is a key consideration when setting up monitoring for a deployed ML model to compare its current performance against a known good state or a simpler model?'
+  options:
+  - Monitoring model performance against baselines, simpler models, and across the time dimension
+  - Only monitoring for memory leaks
+  - Ignoring historical performance data
+  - Monitoring only hardware metrics
+  answer: 1
+  tags:
+  - Model Monitoring
+  - Baselines
+- question: 'An ML Engineer is investigating a sudden increase in errors reported by a model serving endpoint. Which troubleshooting step would be most effective to identify the root cause?'
+  options:
+  - Re-training the model immediately
+  - Checking serving logs and error messages
+  - Reducing the number of features in the model
+  - Changing the model framework
+  answer: 2
+  tags:
+  - Troubleshooting
+  - Serving Errors
+- question: 'When monitoring for "feature attribution drift," what kind of change are ML Engineers trying to detect?'
+  options:
+  - Changes in model training time
+  - Changes in the importance or contribution of input features to predictions over time
+  - Changes in network latency
+  - Changes in storage costs
+  answer: 2
+  tags:
+  - Model Monitoring
+  - Feature Attribution Drift
+- question: 'Which Google Cloud service helps in continuously evaluating models deployed on Vertex AI Endpoints, by comparing predictions with ground truth data?'
+  options:
+  - Vertex AI Pipelines
+  - Vertex AI Model Monitoring
+  - Vertex AI Feature Store
+  - Vertex AI Workbench
+  answer: 2
+  tags:
+  - Model Monitoring
+  - Vertex AI Model Monitoring
+- question: 'What is a key risk to AI solutions that involves malicious actors attempting to exploit vulnerabilities in the model or data to achieve unintended outcomes?'
+  options:
+  - Model retraining
+  - Unintentional exploitation of data or models (e.g., hacking)
+  - Model optimization
+  - Data preprocessing
+  answer: 2
+  tags:
+  - AI Risks
+  - Security
+- question: 'An ML Engineer needs to evaluate the performance of a deployed model for classification. Which of the following is a common continuous evaluation metric for classification tasks?'
+  options:
+  - R-squared
+  - Mean Absolute Error (MAE)
+  - Accuracy
+  - Root Mean Squared Error (RMSE)
+  answer: 3
+  tags:
+  - Evaluation Metrics
+  - Classification
+- question: 'To proactively identify potential problems in a deployed AI solution, what is a crucial practice related to continuous assessment?'
+  options:
+  - One-time evaluation at deployment
+  - Establishing continuous evaluation metrics
+  - Relying solely on user feedback for issues
+  - Avoiding any monitoring
+  answer: 2
+  tags:
+  - Model Monitoring
+  - Proactive Monitoring
+- question: 'What does "Assessing AI solution readiness" primarily involve in the context of Responsible AI?'
+  options:
+  - Evaluating hardware specifications
+  - Ensuring the solution is ready for deployment by assessing factors like fairness and bias
+  - Measuring network throughput
+  - Calculating data storage requirements
+  answer: 2
+  tags:
+  - Responsible AI
+  - AI Readiness
+- question: 'When troubleshooting a deployed ML model, an engineer finds that the model is making predictions on values outside the range it was trained on. This is an example of which common issue?'
+  options:
+  - Model overfitting
+  - Data leakage
+  - Out-of-distribution data leading to serving errors
+  - Concept drift
+  answer: 3
+  tags:
+  - Troubleshooting
+  - Serving Errors
+- question: 'What is a benefit of monitoring model performance across the time dimension?'
+  options:
+  - To reduce the model''s size
+  - To detect gradual degradation in performance or seasonal patterns
+  - To eliminate the need for retraining
+  - To make the model less interpretable
+  answer: 2
+  tags:
+  - Model Monitoring
+  - Time-Series Analysis
+- question: 'An ML Engineer is setting up alerts for a deployed model. What kind of alert would indicate a critical issue requiring immediate attention, related to the model''s availability?'
+  options:
+  - Alert for low CPU usage
+  - Alert for high model serving error rates
+  - Alert for high memory usage in the training environment
+  - Alert for low network traffic
+  answer: 2
+  tags:
+  - Model Monitoring
+  - Alerts
+  - Serving Errors
+- question: 'When implementing Model Explainability on Vertex AI, what is the primary goal?'
+  options:
+  - To speed up model training
+  - To provide insights into model predictions and feature importance
+  - To automatically retrain the model
+  - To reduce model serving costs
+  answer: 2
+  tags:
+  - Model Explainability
+  - Vertex AI
+- question: 'A company needs to continuously verify that its AI solution is not inadvertently revealing sensitive information. Which aspect of Responsible AI is relevant here?'
+  options:
+  - Model throughput
+  - Privacy and data security
+  - Model versioning
+  - Hardware efficiency
+  answer: 2
+  tags:
+  - Responsible AI
+  - Privacy
+- question: 'What is the purpose of monitoring "common training and serving errors" for an AI solution?'
+  options:
+  - To generate new training data
+  - To identify and diagnose issues that prevent the model from working correctly
+  - To randomly change model parameters
+  - To decrease the model''s accuracy
+  answer: 2
+  tags:
+  - Troubleshooting
+  - Errors
+- question: 'Which Google Cloud service provides comprehensive logging and monitoring capabilities for various services, including ML pipelines and deployed models?'
+  options:
+  - Cloud Functions
+  - Cloud Logging and Cloud Monitoring
+  - Cloud SQL
+  - Cloud CDN
+  answer: 2
+  tags:
+  - Monitoring
+  - Logging

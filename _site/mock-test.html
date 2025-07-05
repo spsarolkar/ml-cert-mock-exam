@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mock Exam - GCP ML Engineer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-gray-900">
+  <div class="max-w-4xl mx-auto p-4">
+    <div class="container mx-auto p-4">
+  <h1 class="text-2xl font-bold mb-4 text-center">Mock Exam - Google Cloud ML Engineer</h1>
+
+  <div class="text-center mb-4 space-y-2">
+    <div>
+      <label for="tagSelect" class="mr-2 font-semibold">Filter by Tag:</label>
+      <select id="tagSelect" class="border border-gray-300 p-2 rounded">
+        <option value="all">All Topics</option>
+      </select>
+    </div>
+    <div>
+      <label for="modeSelect" class="mr-2 font-semibold">Exam Mode:</label>
+      <select id="modeSelect" class="border border-gray-300 p-2 rounded">
+        <option value="full">Full (120 min)</option>
+        <option value="quick">Quick (30 min)</option>
+        <option value="sample">Sample (10 min)</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="timer" class="text-center text-red-600 font-bold text-lg mb-4"></div>
+  <div id="exam" class="bg-white rounded-xl shadow-md p-6 max-w-xl mx-auto"></div>
+
+  <div class="flex justify-center mt-4 space-x-7">
+    <button onclick="previousQuestion()" id="previousBtn" class="w-32 bg-blue-500 text-white px-6 py-2 rounded hidden">Previous</button>
+    <button onclick="nextQuestion()" id="nextBtn" class="w-32 bg-blue-500 text-white px-6 py-2 rounded hidden">Next</button>
+    <button onclick="submitAnswers()" id="submitBtn" class="w-32 bg-green-600 text-white px-6 py-2 rounded hidden">Submit</button>
+  </div>
+
+  <div id="result" class="mt-6 text-xl text-center font-semibold"></div>
+  <div id="summary" class="mt-6 text-base max-w-3xl mx-auto hidden"></div>
+  <div class="flex justify-center mt-4">
+    <button onclick="printSummary()" id="printBtn" class="bg-purple-600 text-white px-6 py-2 rounded hidden">Download PDF</button>
+    <button onclick="toggleReviewIncorrectOnly()" id="reviewWrongBtn" class="ml-4 bg-yellow-500 text-white px-6 py-2 rounded hidden">Review Incorrect</button>
+  </div>
+</div>
+
+<script>
+const rawSectionCounts = {
+  full: { section1: 7, section2: 9, section3: 10, section4: 11, section5: 13, section6: 8 },
+  quick: { section1: 3, section2: 3, section3: 4, section4: 4, section5: 4, section6: 2 },
+  sample: { section1: 1, section2: 1, section3: 1, section4: 1, section5: 1, section6: 1 }
+};
+
+const examDurations = { full: 120 * 60, quick: 30 * 60, sample: 10 * 60 };
+
+const sectionPools = {
+  section1: [
+    
+    { question: "A data science team needs to build a model to predict if a customer will subscribe to a service (yes/no) based on historical usage data, which is stored in BigQuery. The team wants to leverage BigQuery ML for development. Which BigQuery ML model type is most appropriate for this business problem?", options: ["Linear Regression","Time-series","Binary Classification","Matrix Factorization"], answer: 3, tags: ["BigQuery ML","Model Selection"] },
+    
+    { question: "An ML Engineer is developing a new application that needs to extract specific entities (e.g., product names, prices) from unstructured invoice documents. Which type of Google Cloud service, specifically mentioned for industry-specific use cases, should the engineer consider to build this solution efficiently?", options: ["Vision AI API","Document AI API","Natural Language API","Speech-to-Text API"], answer: 2, tags: ["ML APIs","Document AI"] },
+    
+    { question: "A company wants to quickly develop a model to classify customer support tickets into predefined categories without deep machine learning expertise. They have a labeled dataset of text tickets. Which Google Cloud AutoML offering would be the most suitable choice?", options: ["AutoML Tables","AutoML Vision","AutoML Text","AutoML Video Intelligence"], answer: 3, tags: ["AutoML","Text Classification"] },
+    
+    { question: "An ML Engineer is tasked with creating an intelligent chatbot that can provide grounded answers to user queries by retrieving information from a large internal knowledge base. Which Google Cloud capability is specifically designed to help implement Retrieval Augmented Generation (RAG) applications for such a scenario?", options: ["Model Garden","Vertex AI Workbench","Vertex AI Agent Builder","BigQuery ML"], answer: 3, tags: ["Generative AI","RAG","Vertex AI Agent Builder"] },
+    
+    { question: "A financial institution needs to predict stock prices based on historical time-series data. They want to use BigQuery ML due to their existing data infrastructure. Which BigQuery ML model type is best suited for forecasting numerical values over time?", options: ["Linear Regression","Time-series","Boosted Trees","Autoencoders"], answer: 2, tags: ["BigQuery ML","Forecasting"] },
+    
+    { question: "A marketing team wants to predict the likelihood of a customer clicking on an advertisement based on their Browse history and demographics, stored in BigQuery. They need a simple, interpretable model. Which BigQuery ML model type should they consider for this binary outcome prediction?", options: ["Regression","Linear Classification","K-Means","Factorization Machines"], answer: 2, tags: ["BigQuery ML","Classification"] },
+    
+    { question: "An ML Engineer is preparing a tabular dataset for AutoML training. The dataset contains various features, and some are highly correlated. What key step, often involving data transformation, is a consideration when preparing this data for AutoML?", options: ["Manual hyperparameter tuning","Feature selection","Model architecture design","Containerization of the model"], answer: 2, tags: ["AutoML","Data Preparation","Feature Engineering"] },
+    
+    { question: "A developer wants to integrate an existing pre-trained image classification model into their application without building a model from scratch. They are looking for a low-code solution on Google Cloud. Which approach aligns with this requirement?", options: ["Training a custom model on Vertex AI","Building applications by using ML APIs from Model Garden","Developing a model with BigQuery ML","Implementing a custom TensorFlow pipeline"], answer: 2, tags: ["ML APIs","Model Garden","Low-code AI"] },
+    
+    { question: "A business needs to predict continuous numerical values, such as housing prices, based on various features like size, location, and number of rooms, with data stored in BigQuery. Which BigQuery ML model type is appropriate for this task?", options: ["Binary Classification","Linear Regression","Autoencoders","Matrix Factorization"], answer: 2, tags: ["BigQuery ML","Regression"] },
+    
+    { question: "An ML Engineer is working with AutoML to train a custom model. After the training process, it’s necessary to adjust certain parameters or address unexpected behavior. What is a key consideration after a model has been trained using AutoML?", options: ["Performing manual data labeling","Configuring and debugging trained models","Deploying to a non-Google Cloud environment","Designing new features from scratch"], answer: 2, tags: ["AutoML","Model Configuration","Debugging"] },
+    
+    { question: "A media company wants to recommend movies to users based on their past viewing habits and ratings. They have a large dataset of user-item interactions in BigQuery. Which BigQuery ML model type is suitable for building a recommendation system?", options: ["Linear Classification","Boosted Trees","Matrix Factorization","Time-series"], answer: 3, tags: ["BigQuery ML","Recommendation Systems"] },
+    
+    { question: "When preparing data for AutoML, especially for text or image data, what initial step is crucial for supervised learning tasks to define the target variable?", options: ["Feature scaling","Data labeling","Dimensionality reduction","Data anonymization"], answer: 2, tags: ["AutoML","Data Labeling"] },
+    
+    { question: "An ML Engineer is exploring various options for building AI solutions using foundation models. Which of these scenarios is directly supported by using ML APIs from Model Garden?", options: ["Developing custom hardware accelerators","Building applications by leveraging pre-trained foundation models","Implementing complex distributed training jobs","Designing custom database schemas"], answer: 2, tags: ["Foundation Models","Model Garden"] },
+    
+    { question: "A retail company wants to use AutoML to predict future demand for products. Which specific AutoML capability would they leverage to achieve this forecasting goal?", options: ["AutoML Vision for object detection","AutoML Text for sentiment analysis","Creating forecasting models by using AutoML","AutoML Tables for classification"], answer: 3, tags: ["AutoML","Forecasting"] },
+    
+    { question: "An ML Engineer is using BigQuery ML to predict a binary outcome. To evaluate the model's performance, they need to generate predictions on new, unseen data. How is this typically done with BigQuery ML?", options: ["Exporting the model to TensorFlow SavedModel format","Generating predictions by using BigQuery ML","Manual calculation of predictions","Deploying the model to a custom endpoint"], answer: 2, tags: ["BigQuery ML","Predictions"] },
+    
+    { question: "Which type of machine learning model can BigQuery ML build for problems involving categories or groups, distinct from numerical regression?", options: ["Time-series models","Boosted trees models","Autoencoders","Linear and binary classification models"], answer: 4, tags: ["BigQuery ML","Classification"] },
+    
+    { question: "A data scientist wants to use BigQuery ML to create a model for a tabular dataset that might benefit from ensemble methods. Which BigQuery ML model type fits this description?", options: ["Linear Regression","Matrix Factorization","Boosted Trees","Time-series"], answer: 3, tags: ["BigQuery ML","Ensemble Models"] },
+    
+    { question: "An ML Engineer needs to build an application that utilizes a large language model for text summarization. They want to use a low-code approach, leveraging Google Cloud's pre-trained models. Which service is most relevant for accessing and using such models?", options: ["Cloud Functions","Vertex AI Workbench","Model Garden","Cloud SQL"], answer: 3, tags: ["Model Garden","Generative AI"] },
+    
+    { question: "When using AutoML for training custom models, what types of unstructured data are explicitly mentioned as supported input for training?", options: ["Only tabular data","Text, speech, images, videos","Sensor data and geospatial data","Logs and metrics"], answer: 2, tags: ["AutoML","Data Types"] },
+    
+    { question: "A company wants to identify patterns in their customer data to segment them into different groups. This is an unsupervised learning task. Which BigQuery ML model type could be used for clustering customer data?", options: ["Linear Classification","K-Means","Time-series","Regression"], answer: 2, tags: ["BigQuery ML","Clustering"] },
+    
+    { question: "An ML Engineer is building an AI solution that needs to extract information from various types of documents, including PDFs and images of text. Which Google Cloud ML API is designed for processing such documents?", options: ["Cloud Vision AI API","Cloud Natural Language API","Document AI API","Cloud Translation API"], answer: 3, tags: ["ML APIs","Document AI"] },
+    
+    { question: "What is a core concept related to developing ML models using BigQuery ML, aside from building the model itself, that focuses on preparing the input for the model?", options: ["Model deployment","Feature engineering or selection","A/B testing","Continuous integration"], answer: 2, tags: ["BigQuery ML","Feature Engineering"] },
+    
+    { question: "A team is using AutoML to train a model for a computer vision task. What is a specific consideration for preparing data for AutoML when dealing with images?", options: ["Converting images to audio files","Data labeling for objects or categories","Using SQL queries for image processing","Generating synthetic image data only"], answer: 2, tags: ["AutoML","Image Data","Data Labeling"] },
+    
+    { question: "When leveraging BigQuery ML, which consideration focuses on defining the problem structure and desired outcome for the model?", options: ["Building the appropriate BigQuery ML model based on the business problem","Optimizing hardware accelerators","Integrating with external data sources","Monitoring model performance in real-time"], answer: 1, tags: ["BigQuery ML","Business Problem"] },
+    
+    { question: "A company needs to implement a solution that allows users to interact with large text documents by asking questions and getting relevant answers, without a human in the loop. The solution must provide answers grounded in the document content. Which Vertex AI capability is best suited for this Retrieval Augmented Generation (RAG) scenario?", options: ["Vertex AI Model Monitoring","Vertex AI Agent Builder","Vertex AI Feature Store","Vertex AI Workbench"], answer: 2, tags: ["Generative AI","RAG","Vertex AI Agent Builder"] },
+    
+    { question: "Which of the following is explicitly mentioned as a BigQuery ML model type used for learning latent features and often employed in unsupervised tasks like anomaly detection?", options: ["Linear Classification","Regression","Autoencoders","Time-series"], answer: 3, tags: ["BigQuery ML","Autoencoders"] },
+    
+    { question: "What specific type of workflow is mentioned under AutoML for preparing tabular data?", options: ["AutoML Flows","Tabular Workflows on AutoML","Data Pipeline Workflows","AutoML Data Prep"], answer: 2, tags: ["AutoML","Tabular Data"] },
+    
+    { question: "When building AI solutions, access to pre-trained, adaptable models is often desired. Which Google Cloud service provides a library of such models, including foundation models, that can be used via APIs?", options: ["Vertex AI Experiments","Vertex AI Pipelines","Model Garden","Vertex AI Endpoints"], answer: 3, tags: ["Model Garden","Foundation Models"] },
+    
+    { question: "An ML Engineer is debugging an AutoML-trained model that is not performing as expected. What is a listed consideration for addressing issues with such models?", options: ["Manually adjusting model weights","Configuring and debugging trained models","Rewriting the AutoML algorithm","Increasing the training budget indefinitely"], answer: 2, tags: ["AutoML","Debugging"] },
+    
+    { question: "A business requires a low-code approach to build a model that predicts a continuous numerical value. Their data is already in BigQuery. Which BigQuery ML model type directly addresses this requirement?", options: ["Binary Classification","Linear Regression","Boosted Trees (for classification)","Time-series (for discrete events)"], answer: 2, tags: ["BigQuery ML","Regression"] },
+    
+  ],
+  section2: [
+    
+    { question: "A data science team is working on a new ML project and needs to explore and preprocess a large dataset stored across Cloud Storage and BigQuery. The project requires extensive data cleaning and transformation. Which Google Cloud service is recommended for efficient data preprocessing for ML pipelines?", options: ["Cloud Functions","Cloud Run","Dataflow","Cloud Composer"], answer: 3, tags: ["Data Preprocessing","Dataflow"] },
+    
+    { question: "An ML Engineer is developing a new model and wants to ensure that all generated features are consistently defined and easily discoverable for reuse across different models and teams. Which Vertex AI service should be utilized for this purpose?", options: ["Vertex AI Experiments","Vertex AI Model Registry","Vertex AI Feature Store","Vertex AI Pipelines"], answer: 3, tags: ["Feature Engineering","Vertex AI Feature Store"] },
+    
+    { question: "A team of ML engineers and data scientists needs a collaborative environment for model prototyping using Jupyter notebooks on Google Cloud. They require shared access, version control integration, and strong security practices. Which Jupyter backend on Google Cloud is explicitly mentioned for these capabilities?", options: ["Colab Enterprise","Deep Learning VMs","Google Kubernetes Engine (GKE)","Compute Engine instances"], answer: 1, tags: ["Model Prototyping","Jupyter Notebooks","Colab Enterprise"] },
+    
+    { question: "When managing datasets in Vertex AI, what is a crucial consideration related to privacy, especially when dealing with sensitive information?", options: ["Maximizing data volume for training","Handling sensitive data such as PII and PHI","Minimizing storage costs","Ensuring data freshness in real-time"], answer: 2, tags: ["Data Governance","Privacy"] },
+    
+    { question: "An ML Engineer is experimenting with different open-source and proprietary foundation models for a text generation task. Which Vertex AI capability allows leveraging a variety of these models for prototyping?", options: ["Vertex AI Feature Store","Vertex AI Model Monitoring","Model Garden","Vertex AI TensorBoard"], answer: 3, tags: ["Foundation Models","Model Prototyping","Model Garden"] },
+    
+    { question: "A financial services company needs to ensure that access to sensitive customer data used for ML model training is strictly controlled and audited. Which Google Cloud service is fundamental for managing access control and permissions for datasets?", options: ["Cloud Functions","Cloud IAM (Identity and Access Management)","Cloud Storage Transfer Service","Cloud CDN"], answer: 2, tags: ["Data Governance","Security","IAM"] },
+    
+    { question: "An ML team wants to streamline the process of extracting, transforming, and loading (ETL) large volumes of structured and unstructured data for their ML models. Which Google Cloud service is typically used for large-scale ETL and data orchestration?", options: ["Cloud SQL","Cloud Dataproc","Cloud Load Balancing","Cloud Monitoring"], answer: 2, tags: ["Data Preprocessing","ETL","Cloud Dataproc"] },
+    
+    { question: "During the model prototyping phase, an ML Engineer is evaluating various model architectures and hyperparameters. They need a service that provides robust experiment tracking and visualization capabilities. Which Vertex AI service is designed for this?", options: ["Vertex AI Pipelines","Vertex AI Workbench","Vertex AI Experiments","Vertex AI Model Registry"], answer: 3, tags: ["Model Prototyping","Experiment Tracking","Vertex AI Experiments"] },
+    
+    { question: "A development team is building a new ML application and needs to store and version their trained models, along with their metadata and lineage, to ensure traceability and reproducibility. Which Vertex AI service is designed for centralized model management?", options: ["Vertex AI Feature Store","Vertex AI Model Registry","Vertex AI Endpoints","Vertex AI Training"], answer: 2, tags: ["Model Management","Vertex AI Model Registry"] },
+    
+    { question: "A data scientist is exploring a large dataset stored in BigQuery for potential features. They need to perform ad-hoc SQL queries and simple transformations efficiently within a notebook environment. Which Google Cloud tool facilitates this interactive exploration of BigQuery data?", options: ["Cloud Functions","Dataflow","Vertex AI Workbench","Cloud Pub/Sub"], answer: 3, tags: ["Data Exploration","BigQuery","Vertex AI Workbench"] },
+    
+    { question: "A company needs to implement a robust data versioning strategy for their ML datasets to ensure that models are trained on specific, reproducible data snapshots. Which best practice or service aids in dataset versioning?", options: ["Storing all data in a single, mutable CSV file","Relying solely on git for large data files","Utilizing Cloud Storage versioning or Data Catalog","Only keeping the latest version of the dataset"], answer: 3, tags: ["Data Management","Data Versioning"] },
+    
+    { question: "An ML team is dealing with a significant volume of unstructured text data that requires advanced natural language processing (NLP) for feature extraction. Which Google Cloud service is best suited for scalable NLP preprocessing?", options: ["Cloud SQL","Cloud Natural Language API","Cloud Data Loss Prevention (DLP)","Cloud Monitoring"], answer: 2, tags: ["Data Preprocessing","NLP"] },
+    
+    { question: "During model prototyping, an ML Engineer needs to quickly spin up a powerful, pre-configured environment with common ML frameworks and libraries. Which Vertex AI capability provides such an environment for Jupyter notebooks?", options: ["Vertex AI Pipelines","Vertex AI Prediction","Vertex AI Workbench","Vertex AI Model Monitoring"], answer: 3, tags: ["Model Prototyping","Vertex AI Workbench"] },
+    
+    { question: "When managing models in Vertex AI, what is a key benefit of using Vertex AI Model Registry?", options: ["Automatically performing real-time predictions","Centralizing the management and discovery of ML models","Orchestrating complex ML pipelines","Providing continuous model evaluation metrics"], answer: 2, tags: ["Model Management","Vertex AI Model Registry"] },
+    
+    { question: "A team is working with sensitive customer data for an ML project. Before storing it in Cloud Storage, they need to ensure that Personally Identifiable Information (PII) is masked or tokenized. Which Google Cloud service can help with de-identifying sensitive data?", options: ["Cloud CDN","Cloud Load Balancing","Cloud Data Loss Prevention (DLP)","Cloud DNS"], answer: 3, tags: ["Data Privacy","DLP"] },
+    
+    { question: "An ML team needs to ensure data consistency when feeding data to their models, especially when dealing with streaming data. Which Google Cloud service is typically used for real-time data ingestion and stream processing before it reaches a feature store or model?", options: ["BigQuery","Cloud Pub/Sub","Cloud SQL","Cloud Storage"], answer: 2, tags: ["Data Ingestion","Stream Processing"] },
+    
+    { question: "To accelerate model prototyping, an ML Engineer decides to use pre-built components or reusable code templates. What Google Cloud concept emphasizes leveraging such pre-built elements for efficient development?", options: ["Custom training","Low-code AI solutions","High-performance computing","Manual feature engineering"], answer: 2, tags: ["Model Prototyping","Low-code AI"] },
+    
+    { question: "Which aspect of model management focuses on connecting model versions to the datasets they were trained on, and the code used to train them, for auditing and debugging purposes?", options: ["Model deployment","Model monitoring","Model and data lineage","Model serving"], answer: 3, tags: ["Model Management","Lineage"] },
+    
+    { question: "A data scientist wants to explore a large dataset of semi-structured log files to identify patterns for anomaly detection. Which Google Cloud service is best suited for querying and analyzing such data, offering flexible schema capabilities?", options: ["Cloud SQL","BigQuery","Cloud Spanner","Cloud Datastore"], answer: 2, tags: ["Data Exploration","Semi-structured Data"] },
+    
+    { question: "An ML team is developing models using various open-source frameworks like Scikit-learn and XGBoost. When moving from prototyping to training, they need to select a compute environment that supports these diverse frameworks. Which Vertex AI service allows custom training with various frameworks?", options: ["AutoML Tables","Vertex AI Custom Training","BigQuery ML","Vertex AI Agent Builder"], answer: 2, tags: ["Model Prototyping","Custom Training"] },
+    
+    { question: "What is a critical consideration for managing datasets that are used for multiple ML models to ensure consistency and prevent data duplication?", options: ["Creating separate copies of data for each model","Centralized data management and versioning","Storing data only on local machines","Avoiding any data transformations"], answer: 2, tags: ["Data Management","Data Consistency"] },
+    
+    { question: "A company has a vast amount of unstructured data (e.g., customer reviews, social media posts) that needs to be preprocessed into features for an NLP model. Which Google Cloud service offers scalable and managed processing for such data?", options: ["Cloud SQL","Dataflow","Cloud Functions","Cloud Run"], answer: 2, tags: ["Data Preprocessing","Unstructured Data","Dataflow"] },
+    
+    { question: "When prototyping, a data scientist needs to quickly visualize the distribution of features and identify outliers in a BigQuery dataset. Which feature of Vertex AI Workbench or BigQuery Console aids in this ad-hoc data exploration?", options: ["Built-in data visualization tools","Automated report generation","Direct integration with SAP","Real-time data streaming"], answer: 1, tags: ["Data Exploration","Visualization"] },
+    
+    { question: "An ML Engineer needs to store and manage a large collection of trained models, including different versions and their associated metrics, in a central repository. Which Vertex AI service is specifically designed for this purpose?", options: ["Vertex AI Feature Store","Vertex AI Pipelines","Vertex AI Model Registry","Vertex AI Endpoints"], answer: 3, tags: ["Model Management","Version Control"] },
+    
+    { question: "A team needs to prepare a dataset for ML training by de-identifying sensitive text fields, such as names and addresses, while preserving the analytical utility of the data. Which Google Cloud service provides this capability?", options: ["Cloud Vision API","Cloud Natural Language API","Cloud Data Loss Prevention (DLP)","Cloud Translation API"], answer: 3, tags: ["Data Privacy","DLP"] },
+    
+    { question: "What is a key benefit of using a Feature Store, like Vertex AI Feature Store, in a collaborative ML environment?", options: ["It automates model deployment.","It ensures consistent feature definitions and reuse across models.","It performs real-time model monitoring.","It provides continuous integration for pipelines."], answer: 2, tags: ["Feature Engineering","Collaboration"] },
+    
+    { question: "An ML Engineer is debugging a model training job that is failing due to data format issues. Which aspect of data exploration and preprocessing is crucial for identifying and rectifying such issues early in the ML lifecycle?", options: ["Data validation","Model explainability","Hyperparameter tuning","Model serving"], answer: 1, tags: ["Data Preprocessing","Data Validation"] },
+    
+    { question: "To ensure long-term success of AI-based applications, the exam guide mentions close collaboration with other job roles. Which of these roles is explicitly highlighted as working with the ML Engineer?", options: ["Network Administrator","Data Engineer","Frontend Developer","Database Administrator"], answer: 2, tags: ["Collaboration","MLOps"] },
+    
+    { question: "When managing datasets for ML projects, what is a crucial security consideration regarding data access and usage?", options: ["Making all data publicly accessible","Implementing robust access controls and encryption","Storing data only on personal devices","Sharing credentials widely among team members"], answer: 2, tags: ["Data Security","Access Control"] },
+    
+    { question: "An ML team is leveraging Model Garden for rapid prototyping using foundation models. What is a key advantage of using Model Garden for this purpose?", options: ["It requires extensive custom code development.","It provides access to a wide range of pre-trained and adaptable models.","It primarily focuses on batch inference.","It is designed for manual model deployment only."], answer: 2, tags: ["Model Garden","Prototyping","Foundation Models"] },
+    
+  ],
+  section3: [
+    
+    { question: "An ML Engineer is building a new model and needs to select the appropriate ML framework. The choice of framework should align with specific interpretability requirements for the model. What is a key consideration when making this choice?", options: ["Cost of compute resources","Modeling techniques given interpretability requirements","Size of the training dataset","Network latency for data ingestion"], answer: 2, tags: ["Model Building","Interpretability"] },
+    
+    { question: "A data science team is preparing a large image dataset for custom model training. To ensure efficient and scalable training, how should the training data be organized on Google Cloud, according to the exam guide?", options: ["Store all images in a single CSV file in Cloud Storage","Organize data on Google Cloud (e.g., Cloud Storage, BigQuery)","Keep all data on local disk drives","Transfer data over SFTP to a remote server"], answer: 2, tags: ["Data Organization","Model Training"] },
+    
+    { question: "A complex deep learning model requires significant computational power for training. The ML Engineer needs to choose the most appropriate hardware accelerator on Google Cloud for distributed training to maximize performance. Which options are primarily considered for this?", options: ["CPU and FPGA","GPU and ASIC","CPU and TPU","GPU and TPU"], answer: 4, tags: ["Hardware Selection","Distributed Training"] },
+    
+    { question: "During model training, an ML Engineer encounters unexpected performance degradation and high loss values. The training job is configured to use a custom training pipeline on Vertex AI. What is a listed consideration for resolving such issues?", options: ["Increasing the learning rate indefinitely","Decreasing the batch size to zero","Troubleshooting ML model training failures","Switching to a different dataset without validation"], answer: 3, tags: ["Model Training","Troubleshooting"] },
+    
+    { question: "A company has a pre-trained large language model and wants to adapt it for a specific domain-specific task with a smaller, labeled dataset. Which technique is explicitly mentioned for adapting foundation models for specific use cases?", options: ["Pre-training from scratch","Transfer learning","Fine-tuning foundation models","Knowledge distillation"], answer: 3, tags: ["Foundation Models","Fine-tuning"] },
+    
+    { question: "An ML Engineer is selecting a framework for a new computer vision model. The project requires highly optimized performance and access to low-level GPU operations. Which framework would generally be more suitable for this requirement compared to a high-level API like Keras?", options: ["Scikit-learn","XGBoost","TensorFlow (low-level APIs)","Spark MLlib"], answer: 3, tags: ["ML Frameworks","Performance Optimization"] },
+    
+    { question: "A large e-commerce company needs to ingest terabytes of customer behavior data (structured and semi-structured) into a training pipeline for their recommendation engine. Which Google Cloud service is typically used for scalable data ingestion for training?", options: ["Cloud Functions","Cloud SQL","Cloud Storage","Cloud CDN"], answer: 3, tags: ["Data Ingestion","Cloud Storage"] },
+    
+    { question: "An ML Engineer is training a large-scale model that requires distributed training across multiple machines. Which Google Cloud service provides managed infrastructure for distributed training of custom models?", options: ["BigQuery ML","AutoML","Vertex AI Custom Training","Cloud Functions"], answer: 3, tags: ["Model Training","Distributed Training","Vertex AI"] },
+    
+    { question: "A team is using a publicly available foundation model from Model Garden but finds that its performance on their specific domain-specific dataset is suboptimal. What is the recommended strategy to improve the model's performance for their specific use case?", options: ["Re-train the entire foundation model from scratch","Fine-tune the foundation model with their custom dataset","Use the model as is without any changes","Convert the model to a different framework"], answer: 2, tags: ["Foundation Models","Fine-tuning"] },
+    
+    { question: "When choosing an ML framework for a new project, a key consideration is the ecosystem and community support available for that framework. What does this primarily influence?", options: ["The type of data that can be used","The ease of finding resources, libraries, and troubleshooting help","The physical location of the data storage","The legal compliance of the model"], answer: 2, tags: ["ML Frameworks","Community Support"] },
+    
+    { question: "A data pipeline for ML training frequently fails due to inconsistencies in the input CSV files. What aspect of data ingestion should the ML Engineer focus on to prevent such failures?", options: ["Accelerating training speed","Data validation","Model deployment strategy","Hyperparameter tuning"], answer: 2, tags: ["Data Ingestion","Data Validation"] },
+    
+    { question: "An ML Engineer needs to perform hyperparameter tuning for a custom model to find the optimal set of hyperparameters. Which Vertex AI capability helps in automating and managing this process efficiently?", options: ["Vertex AI Feature Store","Vertex AI Workbench","Vertex AI Vizier","Vertex AI Model Monitoring"], answer: 3, tags: ["Model Training","Hyperparameter Tuning","Vertex AI Vizier"] },
+    
+    { question: "A company has a generic speech-to-text foundation model but needs to adapt it to recognize specific industry jargon. What is the most effective approach to customize this foundation model for their unique vocabulary?", options: ["Training a new speech recognition model from scratch","Fine-tuning the existing speech-to-text foundation model","Using a rule-based system for jargon","Reducing the size of the original model"], answer: 2, tags: ["Foundation Models","Fine-tuning"] },
+    
+    { question: "What is a consideration when choosing an ML framework regarding the specific problem being solved, such as text generation or image classification?", options: ["Cost of storage","Modeling techniques given problem statement","Network latency","Data governance policies"], answer: 2, tags: ["ML Frameworks","Problem Statement"] },
+    
+    { question: "For efficient large-scale training, an ML Engineer needs to ensure that training data is ingested in a format optimized for performance. Which of these file formats is commonly recommended for performance-critical ML training on Google Cloud?", options: ["XML","CSV","TFRecord","JSON"], answer: 3, tags: ["Data Ingestion","Data Format","TFRecord"] },
+    
+    { question: "An ML Engineer is debugging a custom training job that consistently runs out of memory on the GPU. Which strategy is a common approach to troubleshoot this type of training failure?", options: ["Increasing the batch size significantly","Decreasing the model complexity or batch size","Switching to a CPU-only instance","Ignoring memory warnings"], answer: 2, tags: ["Model Training","Troubleshooting"] },
+    
+    { question: "A team is experimenting with a new foundation model for natural language understanding. They need to test how well it performs on a small, domain-specific dataset without extensive retraining. Which technique allows for rapid adaptation of foundation models to new tasks?", options: ["Deep reinforcement learning","Transfer learning","Quantum machine learning","Federated learning"], answer: 2, tags: ["Foundation Models","Transfer Learning"] },
+    
+    { question: "When designing a distributed training strategy, what is a key architectural consideration to ensure efficient communication and synchronization between worker nodes?", options: ["Network bandwidth and latency","Local disk space on individual workers","Number of features in the dataset","Type of database used for logging"], answer: 1, tags: ["Distributed Training","Network"] },
+    
+    { question: "An ML Engineer is training a model that involves processing large video files. Which Google Cloud service is typically used for scalable storage of such large media files for training data ingestion?", options: ["Cloud SQL","BigQuery","Cloud Storage","Cloud Memorystore"], answer: 3, tags: ["Data Ingestion","Video Data","Cloud Storage"] },
+    
+    { question: "To improve the performance of a trained model, an ML Engineer is exploring various optimization techniques. Which of these is a valid approach for optimizing trained models, relevant to scaling prototypes?", options: ["Increasing the number of training epochs indefinitely","Model quantization and pruning","Adding more layers without regularization","Decreasing the learning rate to zero"], answer: 2, tags: ["Model Optimization","Model Quantization"] },
+    
+    { question: "A data scientist prefers working with the Scikit-learn framework for its ease of use and rich set of algorithms. When scaling their prototype to a larger dataset for training on Google Cloud, which approach is suitable?", options: ["Rewriting the entire code in TensorFlow","Using Vertex AI Custom Training with a Scikit-learn container","Migrating to BigQuery ML for all models","Only training on a local machine"], answer: 2, tags: ["ML Frameworks","Custom Training"] },
+    
+    { question: "An ML Engineer needs to perform data transformations (e.g., normalization, one-hot encoding) on a massive dataset before training. Which Google Cloud service is typically used for large-scale data transformation in batch or streaming mode?", options: ["Cloud Functions","Dataflow","Cloud Pub/Sub","Cloud Run"], answer: 2, tags: ["Data Preprocessing","Data Transformation","Dataflow"] },
+    
+    { question: "When training models, particularly deep neural networks, what is a key consideration for managing the computational graph and executing operations efficiently across hardware accelerators?", options: ["Model serialization format","Graph optimization and execution","Data versioning","Model deployment strategy"], answer: 2, tags: ["Model Training","Graph Optimization"] },
+    
+    { question: "A company needs to fine-tune a foundation model for a new language that is not well-represented in the original training data. What is crucial for this fine-tuning process?", options: ["Removing all existing layers from the foundation model","Providing a high-quality, labeled dataset in the new language","Training the model exclusively on unlabeled data","Only using a very small learning rate"], answer: 2, tags: ["Foundation Models","Fine-tuning"] },
+    
+    { question: "An ML Engineer observes that their training job is running very slowly despite using powerful GPUs. Upon inspection, they find that data loading is a bottleneck. What is a common strategy to optimize data ingestion speed for training?", options: ["Using a single-threaded data loader","Implementing parallel data loading and preprocessing","Storing all data on local disk of a single instance","Reducing the overall dataset size"], answer: 2, tags: ["Data Ingestion","Performance Optimization"] },
+    
+    { question: "Which Google Cloud service provides a managed service for distributed training with custom containers, allowing flexibility in choosing ML frameworks and dependencies?", options: ["AutoML","BigQuery ML","Vertex AI Training","Cloud Functions"], answer: 3, tags: ["Model Training","Custom Training"] },
+    
+    { question: "What is a primary goal of fine-tuning a foundation model?", options: ["To make the model larger and more complex","To adapt a general-purpose model to a specific task or domain","To reduce the model''s accuracy for a specific task","To train a model from scratch without any pre-existing knowledge"], answer: 2, tags: ["Foundation Models","Fine-tuning"] },
+    
+    { question: "When troubleshooting ML model training failures, which of these is a crucial step for diagnosing issues related to model convergence or overfitting?", options: ["Deploying the model to production","Analyzing training loss and validation metrics","Disabling all logging","Removing regularization techniques"], answer: 2, tags: ["Model Training","Troubleshooting","Model Evaluation"] },
+    
+    { question: "A data scientist wants to use TensorFlow and requires access to advanced features for custom model development. Which Google Cloud service allows them to define custom training jobs with TensorFlow?", options: ["BigQuery ML","AutoML Tables","Vertex AI Custom Training","Cloud Dataflow"], answer: 3, tags: ["ML Frameworks","Custom Training","TensorFlow"] },
+    
+    { question: "Which aspect of scaling prototypes involves ensuring the model can efficiently process incoming data during training and inference?", options: ["Data lineage","Data throughput and latency","Model versioning","Feature store creation"], answer: 2, tags: ["Performance Optimization","Data Throughput"] },
+    
+  ],
+  section4: [
+    
+    { question: "An ML Engineer needs to deploy a fraud detection model that processes transactions as they occur, requiring immediate predictions. Which serving strategy is most appropriate for this scenario?", options: ["Batch inference","Offline inference","Online inference","Scheduled inference"], answer: 3, tags: ["Model Serving","Inference"] },
+    
+    { question: "After deploying a new version of an ML model, the team wants to compare its performance against the existing production model without fully switching traffic. Which technique is explicitly mentioned for evaluating different versions of a model in a live environment?", options: ["Model cloning","A/B testing","Shadow deployment","Canary release"], answer: 2, tags: ["Model Evaluation","A/B Testing"] },
+    
+    { question: "A machine learning system needs to handle a rapidly increasing number of prediction requests during peak hours. The ML Engineer must ensure the serving backend can dynamically adjust to high throughput. Which Vertex AI capability is critical for scaling online model serving based on throughput?", options: ["Vertex AI Feature Store","Vertex AI Prediction","Vertex AI Pipelines","Vertex AI Workbench"], answer: 2, tags: ["Model Scaling","Vertex AI Prediction"] },
+    
+    { question: "To optimize a deployed ML model for production, an ML Engineer is focusing on improving its efficiency. Which of the following is a key consideration when tuning ML models for serving in production environments?", options: ["Increasing model complexity","Optimizing for increased performance, latency, memory, throughput","Decreasing the training data size","Reducing the number of model parameters"], answer: 2, tags: ["Model Optimization","Production Serving"] },
+    
+    { question: "An ML Engineer needs to serve a model that was trained using the PyTorch framework. Which consideration is important when deploying this model for serving on Google Cloud?", options: ["Converting the model to TensorFlow Lite","Using different frameworks (e.g., PyTorch, XGBoost) to serve models","Deploying only to edge devices","Ensuring batch inference is the only option"], answer: 2, tags: ["Model Serving","Frameworks"] },
+    
+    { question: "A company needs to process millions of images daily for an object detection task, but predictions do not need to be instantaneous. The priority is cost-efficiency and processing large volumes of data. Which serving strategy is most suitable for this scenario?", options: ["Online inference","Real-time inference","Batch inference","Streaming inference"], answer: 3, tags: ["Model Serving","Batch Inference"] },
+    
+    { question: "An ML Engineer is preparing a TensorFlow model for deployment on Vertex AI. To ensure consistent behavior, what should be packaged with the model artifact for serving?", options: ["Only the model weights","The model along with all necessary dependencies and serving code","Only the training script","A blank Docker image"], answer: 2, tags: ["Model Deployment","Model Packaging"] },
+    
+    { question: "When optimizing an ML model for lower inference latency on resource-constrained devices, which technique involves reducing the precision of numerical representations (e.g., from float32 to float16 or int8)?", options: ["Pruning","Quantization","Knowledge Distillation","Ensemble Learning"], answer: 2, tags: ["Model Optimization","Latency","Quantization"] },
+    
+    { question: "An ML Engineer is deploying a new customer sentiment analysis model and wants to ensure that the model behaves fairly across different demographic groups. Which practice should be integrated into the deployment and monitoring process?", options: ["Prioritizing only model accuracy","Building and deploying responsible AI solutions (e.g., fairness, privacy)","Maximizing model complexity","Reducing the number of test cases"], answer: 2, tags: ["Responsible AI","Fairness"] },
+    
+    { question: "To optimize a deep learning model for faster inference without significantly impacting accuracy, an ML Engineer removes redundant or less important connections in the neural network. What is this optimization technique called?", options: ["Quantization","Pruning","Knowledge Distillation","Layer Normalization"], answer: 2, tags: ["Model Optimization","Pruning"] },
+    
+    { question: "A development team is deploying a new recommendation model. They want to expose the model as a REST API for their front-end application. Which Vertex AI capability allows creating such API endpoints for online predictions?", options: ["Vertex AI Workbench","Vertex AI Pipelines","Vertex AI Endpoints","Vertex AI Feature Store"], answer: 3, tags: ["Model Deployment","API Endpoints"] },
+    
+    { question: "When deploying a model, an ML Engineer needs to specify the compute resources (e.g., CPU, GPU memory) required for serving. Which aspect of model deployment involves configuring these resources?", options: ["Data ingestion for training","Hardware requirements","Model versioning","Feature engineering"], answer: 2, tags: ["Model Deployment","Hardware Requirements"] },
+    
+    { question: "A company is preparing to deploy an ML model that processes sensitive user data. What is a critical consideration for building and deploying responsible AI solutions to protect user privacy?", options: ["Maximizing model throughput","Implementing data anonymization and encryption","Using only open-source models","Minimizing the number of features"], answer: 2, tags: ["Responsible AI","Privacy"] },
+    
+    { question: "An ML Engineer needs to perform a one-time inference on a large historical dataset for reporting purposes. The latency is not critical, but throughput is important. Which type of inference is suitable for this?", options: ["Online inference","Batch inference","Real-time streaming","Low-latency serving"], answer: 2, tags: ["Model Serving","Batch Inference"] },
+    
+    { question: "Which Google Cloud service is typically used as the underlying infrastructure for hosting models deployed via Vertex AI Prediction for online serving, providing scalability and management?", options: ["Cloud Functions","Google Kubernetes Engine (GKE)","Cloud SQL","Cloud Dataflow"], answer: 2, tags: ["Model Serving","GKE"] },
+    
+    { question: "When building and deploying responsible AI solutions, what is a key ethical consideration related to the outcomes of the AI system, particularly in high-stakes domains?", options: ["Optimizing for the lowest possible latency","Ensuring fairness and minimizing bias","Maximizing the number of model versions","Reducing the model size for faster downloads"], answer: 2, tags: ["Responsible AI","Ethics"] },
+    
+    { question: "To reduce the memory footprint of a large deep learning model during serving, an ML Engineer wants to remove redundant layers or parameters. What is this model optimization technique called?", options: ["Quantization","Pruning","Knowledge Distillation","Fine-tuning"], answer: 2, tags: ["Model Optimization","Memory Optimization"] },
+    
+    { question: "An ML Engineer is deploying a new model version to production. To minimize risk, they want to gradually roll out the new version to a small subset of users before a full rollout. Which deployment strategy supports this gradual rollout?", options: ["Blue/Green Deployment","Canary Deployment","Rolling Update","A/B Testing"], answer: 2, tags: ["Model Deployment","Deployment Strategy"] },
+    
+    { question: "What is a key consideration when tuning ML models specifically for improved throughput during serving?", options: ["Reducing the number of training epochs","Batching multiple inference requests","Increasing the model''s complexity","Decreasing the learning rate"], answer: 2, tags: ["Model Optimization","Throughput"] },
+    
+    { question: "An ML Engineer is deploying a TensorFlow model that was custom-trained. To ensure proper execution during serving, what is the recommended way to package the model artifact for Vertex AI Prediction?", options: ["As a Python script","As a TensorFlow SavedModel format","As a CSV file","As a Jupyter Notebook"], answer: 2, tags: ["Model Deployment","TensorFlow"] },
+    
+    { question: "Which aspect of building and deploying responsible AI solutions emphasizes the ability to understand why an AI model made a particular decision?", options: ["Model interpretability and explainability","Model versioning","Data transfer speed","Cost optimization"], answer: 1, tags: ["Responsible AI","Explainability"] },
+    
+    { question: "A company needs to serve a real-time recommendation model with very low latency requirements. Which type of compute resource is often used to achieve high performance and low latency for deep learning models during online inference?", options: ["Standard CPUs","TPUs","HDDs","CPUs with minimal cores"], answer: 2, tags: ["Model Serving","Low Latency","TPUs"] },
+    
+    { question: "When deploying models, what is a crucial aspect of model lifecycle management to ensure that specific versions can be rolled back if issues arise?", options: ["Model cloning","Model versioning","Model explainability","Model monitoring"], answer: 2, tags: ["Model Deployment","Model Versioning"] },
+    
+    { question: "To ensure a deployed model is robust and reliable, which type of testing should be performed continuously during the serving phase?", options: ["Unit testing of the training script","Load testing and stress testing of the serving endpoint","Manual data entry for predictions","One-time model validation"], answer: 2, tags: ["Model Serving","Testing"] },
+    
+    { question: "An ML Engineer is optimizing a model for edge deployment where memory and computational power are very limited. Which model optimization technique focuses on creating a smaller, faster model from a larger, more complex one?", options: ["Fine-tuning","Knowledge Distillation","Data Augmentation","Ensemble Learning"], answer: 2, tags: ["Model Optimization","Edge Deployment"] },
+    
+    { question: "Which Google Cloud service is typically used to manage and serve custom containers for ML models, providing flexibility for various frameworks and dependencies?", options: ["Cloud Functions","Cloud Run","Vertex AI Prediction (Custom Containers)","Cloud Build"], answer: 3, tags: ["Model Serving","Custom Containers"] },
+    
+    { question: "What is a critical consideration for tuning ML models to achieve optimal balance between performance (e.g., accuracy) and efficiency (e.g., latency, throughput) in production?", options: ["Training for infinite epochs","Iterative experimentation and evaluation","Deploying without any tuning","Maximizing model size"], answer: 2, tags: ["Model Optimization","Performance Tuning"] },
+    
+    { question: "When deploying a model that outputs sensitive predictions, such as medical diagnoses, what is a vital aspect of responsible AI to consider?", options: ["Only deploying to a single region","Transparency and interpretability of predictions","Minimizing the number of features","Ignoring historical bias in data"], answer: 2, tags: ["Responsible AI","Transparency"] },
+    
+    { question: "An ML Engineer needs to perform offline evaluation of a model on a large dataset before deciding on deployment. Which type of inference is performed in a batch manner, typically for evaluation or large-scale scoring?", options: ["Online Inference","Real-time Inference","Batch Inference","Streaming Inference"], answer: 3, tags: ["Model Serving","Offline Evaluation"] },
+    
+    { question: "To reduce the computational cost and energy consumption of a deployed model, an ML Engineer applies techniques that make the model smaller and faster. This aligns with which broader goal?", options: ["Increasing model complexity","Green AI and resource efficiency","Maximizing data storage","Ignoring model performance"], answer: 2, tags: ["Model Optimization","Green AI"] },
+    
+  ],
+  section5: [
+    
+    { question: "An ML team is developing a new end-to-end ML pipeline. They need to ensure that the data preprocessing logic applied during training is identical to the logic applied during serving to prevent discrepancies. Which consideration addresses this critical aspect?", options: ["Ensuring consistent data pre-processing between training and serving","Using different data validation rules for training and serving","Relying on manual data checks for consistency","Decoupling training and serving preprocessing entirely"], answer: 1, tags: ["ML Pipelines","Data Consistency"] },
+    
+    { question: "A company wants to automate the entire lifecycle of their ML models, including continuous integration and continuous delivery (CI/CD) for model deployment. Which Google Cloud service or concept is explicitly mentioned for enabling CI/CD model deployment in the context of automating model retraining?", options: ["Cloud Functions","Jenkins","Cloud Scheduler","Cloud Pub/Sub"], answer: 2, tags: ["MLOps","CI/CD"] },
+    
+    { question: "An ML Engineer is setting up an orchestration framework for a complex ML pipeline that involves multiple interdependent steps, including data ingestion, training, and evaluation. Which orchestration framework is explicitly mentioned for this purpose?", options: ["Apache Airflow (non-Composer)","Kubeflow Pipelines","Apache Spark","Apache Beam"], answer: 2, tags: ["Orchestration","Kubeflow Pipelines"] },
+    
+    { question: "When tracking and auditing metadata for ML models, what is a key aspect mentioned regarding model and dataset versions?", options: ["Only tracking the final deployed model version","Ignoring dataset versions after initial training","Hooking into model and dataset versioning","Manually documenting changes in a spreadsheet"], answer: 3, tags: ["Metadata Tracking","Versioning"] },
+    
+    { question: "A team is designing a system that uses TensorFlow Extended (TFX) components to build an ML pipeline. Which Google Cloud service is mentioned for system design with TFX components or Kubeflow DSL?", options: ["Cloud Storage","BigQuery","Dataflow","Cloud SQL"], answer: 3, tags: ["ML Pipelines","TFX","Dataflow"] },
+    
+    { question: "An ML Engineer is designing a flexible and scalable ML pipeline that can be composed of reusable components. Which architecture concept is central to this approach?", options: ["Monolithic architecture","Componentizing ML pipelines","Manual pipeline execution","Standalone script execution"], answer: 2, tags: ["ML Pipelines","Componentization"] },
+    
+    { question: "To ensure that a deployed model remains accurate over time, especially with changing data patterns, what automated process is crucial?", options: ["Manual model debugging","One-time model deployment","Automating model retraining","Ad-hoc model evaluation"], answer: 3, tags: ["Model Retraining","Automation"] },
+    
+    { question: "An ML Engineer needs to trace the origin of a specific model version, including the training data used, the code executed, and the hyperparameters. Which aspect of metadata tracking enables this comprehensive traceability?", options: ["Model performance metrics","Model and data lineage","Model serving endpoint","Model cost analysis"], answer: 2, tags: ["Metadata Tracking","Lineage"] },
+    
+    { question: "A company needs to orchestrate a complex ML workflow that involves data extraction, transformation, model training, evaluation, and deployment, with dependencies between steps. Which type of tool is explicitly mentioned for developing end-to-end ML pipelines?", options: ["Simple cron jobs","Orchestration framework (e.g., Kubeflow Pipelines)","Manual shell scripts","Cloud Logging"], answer: 2, tags: ["ML Pipelines","Orchestration"] },
+    
+    { question: "When defining an appropriate retraining policy for a model, what is a key consideration to ensure the model remains relevant and performs well in production?", options: ["Only retraining when manual intervention is required","Determining an appropriate retraining policy (e.g., schedule, performance drop)","Retraining once a year regardless of performance","Avoiding retraining to save costs"], answer: 2, tags: ["Model Retraining","Retraining Policy"] },
+    
+    { question: "Which Vertex AI service is specifically designed for tracking and comparing model artifacts and versions, along with their associated metrics and parameters?", options: ["Vertex AI Feature Store","Vertex AI Model Registry","Vertex AI Experiments","Vertex AI Prediction"], answer: 3, tags: ["Metadata Tracking","Vertex AI Experiments"] },
+    
+    { question: "An ML Engineer is designing a hybrid cloud ML pipeline. Which orchestration framework is known for its flexibility across various environments, including hybrid and multi-cloud strategies?", options: ["AWS Step Functions","Azure Data Factory","Cloud Composer (managed Apache Airflow)","SageMaker Pipelines"], answer: 3, tags: ["Orchestration","Hybrid Cloud"] },
+    
+    { question: "To implement continuous delivery for ML models, what is a crucial practice involving automated testing and deployment of new model versions?", options: ["Manual model validation only","Continuous integration and continuous delivery (CI/CD) model deployment","One-time model evaluation","Ad-hoc deployment"], answer: 2, tags: ["MLOps","CI/CD"] },
+    
+    { question: "When designing an ML pipeline, what is a critical consideration to ensure that the pipeline is robust and can recover from failures?", options: ["Using only manual steps","Implementing error handling and retry mechanisms","Ignoring intermediate outputs","Deploying without testing"], answer: 2, tags: ["ML Pipelines","Robustness"] },
+    
+    { question: "What is the primary benefit of tracking and auditing metadata in ML pipelines?", options: ["To reduce training time","To ensure model reproducibility and traceability","To increase model accuracy","To decrease storage costs"], answer: 2, tags: ["Metadata Tracking","Reproducibility"] },
+    
+    { question: "An ML Engineer wants to automate the retraining of a model every time new data becomes available. Which type of trigger would be most appropriate for this scenario?", options: ["Manual trigger only","Time-based schedule","Data-driven trigger (e.g., new data in Cloud Storage)","Code push to repository"], answer: 3, tags: ["Model Retraining","Automation"] },
+    
+    { question: "Which Google Cloud service is a managed version of Apache Airflow, commonly used for orchestrating complex workflows, including ML pipelines?", options: ["Cloud Functions","Cloud Composer","Cloud Dataflow","Cloud Run"], answer: 2, tags: ["Orchestration","Cloud Composer"] },
+    
+    { question: "When designing ML pipelines, what does \"system design with TFX components or Kubeflow DSL\" imply regarding the choice of tools?", options: ["Using only proprietary Google Cloud tools","Leveraging open-source frameworks like TensorFlow Extended (TFX) or Kubeflow Pipelines Domain Specific Language (DSL)","Developing pipelines entirely from scratch using Python","Avoiding any pre-built components"], answer: 2, tags: ["ML Pipelines","TFX","Kubeflow DSL"] },
+    
+    { question: "A team needs to ensure that their ML pipeline can be easily modified and extended in the future without breaking existing functionalities. Which design principle addresses this need?", options: ["Creating a monolithic pipeline","Designing modular and extensible pipelines","Using hardcoded parameters","Avoiding version control for pipeline code"], answer: 2, tags: ["ML Pipelines","Modularity"] },
+    
+    { question: "To ensure a consistent and reliable process for updating models in production, what practice should be implemented in the model retraining phase?", options: ["Manual deployment of every new model","Automated deployment through CI/CD pipelines","Only updating models once a year","Relying on ad-hoc script execution"], answer: 2, tags: ["Model Retraining","CI/CD"] },
+    
+    { question: "Which Vertex AI service is designed to record and query metadata generated during ML workflow executions, such as artifacts, executions, and lineage?", options: ["Vertex AI Feature Store","Vertex AI Model Registry","Vertex ML Metadata","Vertex AI Workbench"], answer: 3, tags: ["Metadata Tracking","Vertex ML Metadata"] },
+    
+    { question: "An ML Engineer is designing a new ML pipeline for real-time predictions. What is a key consideration for the data flow within such a pipeline, particularly regarding latency?", options: ["Using batch processing for all steps","Optimizing for low-latency data flow","Ignoring data freshness","Relying on manual data transfers"], answer: 2, tags: ["ML Pipelines","Real-time","Latency"] },
+    
+    { question: "When automating model retraining, what is a crucial factor to determine when a model should be retrained automatically?", options: ["The color of the deployment dashboard","A defined retraining policy based on performance decay or data drift","The number of data scientists in the team","The amount of free storage space"], answer: 2, tags: ["Model Retraining","Retraining Policy"] },
+    
+    { question: "What is a primary benefit of using a managed orchestration framework like Cloud Composer for ML pipelines?", options: ["It removes the need for any code development.","It provides scalability, reliability, and simplified management for complex workflows.","It strictly limits the types of ML models that can be used.","It only supports manual execution of tasks."], answer: 2, tags: ["Orchestration","Cloud Composer"] },
+    
+    { question: "Which Google Cloud service is often used in CI/CD pipelines to build and test Docker images for custom model training and serving containers?", options: ["Cloud Source Repositories","Cloud Build","Cloud Deployment Manager","Cloud Functions"], answer: 2, tags: ["CI/CD","Cloud Build"] },
+    
+    { question: "When designing ML pipelines, what is the importance of modularity and reusability of components?", options: ["To make the pipeline harder to debug","To increase development time","To facilitate easier updates, testing, and collaboration","To restrict pipeline functionality"], answer: 3, tags: ["ML Pipelines","Modularity","Reusability"] },
+    
+    { question: "An ML Engineer needs to audit all changes made to a model and its associated datasets over time for compliance reasons. Which metadata tracking capability is essential for this?", options: ["Real-time prediction logs","Hooking into model and dataset versioning","Serving endpoint monitoring","Cost tracking for compute resources"], answer: 2, tags: ["Metadata Tracking","Auditing"] },
+    
+    { question: "What is a critical aspect of automated model retraining that involves determining if a newly trained model is indeed better than the current production model before deployment?", options: ["Manual A/B testing","Automated model evaluation and validation","Disabling all monitoring","Ignoring historical performance"], answer: 2, tags: ["Model Retraining","Automated Evaluation"] },
+    
+    { question: "An ML team wants to version control their ML pipeline code and track changes over time. Which Google Cloud service is typically used for source code management?", options: ["Cloud Storage","Cloud Source Repositories","Cloud Logging","Cloud Monitoring"], answer: 2, tags: ["ML Pipelines","Version Control","Source Control"] },
+    
+    { question: "What is a primary objective of designing ML pipelines in a structured and automated manner?", options: ["To make the ML process more manual and complex","To enable reproducibility, scalability, and faster iteration cycles","To eliminate the need for data preprocessing","To reduce the model''s accuracy"], answer: 2, tags: ["ML Pipelines","Automation","MLOps"] },
+    
+  ],
+  section6: [
+    
+    { question: "An ML Engineer is responsible for a deployed AI solution and needs to establish metrics to continually assess its performance. Which Vertex AI service is specifically mentioned for establishing continuous evaluation metrics?", options: ["Vertex AI Workbench","Vertex AI Model Monitoring","Vertex AI Experiments","Vertex AI Feature Store"], answer: 2, tags: ["Model Monitoring","Evaluation Metrics"] },
+    
+    { question: "To ensure fairness and prevent unintended consequences in an AI solution, an ML Engineer must align with Google's Responsible AI practices. What is a specific practice mentioned in this context?", options: ["Monitoring for high latency","Monitoring for bias","Monitoring for storage usage","Monitoring for network bandwidth"], answer: 2, tags: ["Responsible AI","Bias"] },
+    
+    { question: "A critical concern for deployed ML models is ensuring that the data distribution seen during training matches the data distribution during serving. What specific phenomenon is mentioned for monitoring to identify potential issues arising from this mismatch?", options: ["Model overfitting","Training-serving skew","Data redundancy","Concept drift"], answer: 2, tags: ["Model Monitoring","Training-Serving Skew"] },
+    
+    { question: "An ML Engineer needs to understand why an AI model made a particular prediction, especially in sensitive applications. Which Vertex AI capability is explicitly mentioned for providing insights into model behavior and prediction reasoning?", options: ["Vertex AI Pipelines","Vertex AI Model Registry","Model explainability on Vertex AI","Vertex AI Endpoints"], answer: 3, tags: ["Model Explainability","Vertex AI"] },
+    
+    { question: "When monitoring AI solutions, it is important to track how feature importance or contribution changes over time. Which specific type of drift is mentioned for monitoring to detect such changes?", options: ["Data drift","Concept drift","Feature attribution drift","Model accuracy drift"], answer: 3, tags: ["Model Monitoring","Feature Drift"] },
+    
+    { question: "An ML Engineer is designing a secure AI system to protect against unauthorized access or manipulation of sensitive data and models. What is a key consideration for building secure AI systems?", options: ["Leaving all data buckets publicly accessible","Protecting against unintentional exploitation of data or models (e.g., hacking)","Using default passwords for all services","Disabling all security logging"], answer: 2, tags: ["AI Risks","Security"] },
+    
+    { question: "A newly deployed recommendation model is showing a significant drop in its click-through rate (CTR) compared to its historical performance. What type of monitoring is crucial to detect this change in business outcome metrics?", options: ["Hardware utilization monitoring","Monitoring model performance against baselines","Network latency monitoring","Storage space monitoring"], answer: 2, tags: ["Model Monitoring","Performance Monitoring"] },
+    
+    { question: "What is the primary purpose of \"Establishing continuous evaluation metrics\" for an AI solution?", options: ["To reduce deployment costs","To ensure the model meets its performance objectives over time","To increase training speed","To simplify data preprocessing"], answer: 2, tags: ["Model Monitoring","Evaluation Metrics"] },
+    
+    { question: "An ML Engineer is troubleshooting a deployed model that is returning an unexpectedly high number of `NaN` (Not a Number) predictions. This suggests an issue with input data quality. Which type of monitoring would help identify this problem?", options: ["Monitoring for network issues","Monitoring for common training and serving errors","Monitoring for GPU temperature","Monitoring for storage usage"], answer: 2, tags: ["Troubleshooting","Serving Errors"] },
+    
+    { question: "When aligning with Google's Responsible AI practices, which specific assessment involves evaluating the model's outputs for fairness and bias across different user groups?", options: ["Assessing AI solution readiness (e.g., fairness, bias)","Assessing model complexity","Assessing data transfer speeds","Assessing memory consumption"], answer: 1, tags: ["Responsible AI","Fairness"] },
+    
+    { question: "A deployed model shows a consistent decrease in prediction accuracy over several weeks. This indicates that the relationship between the input features and the target variable has changed over time. What phenomenon does this represent?", options: ["Data leakage","Concept drift","Model overfitting","Training-serving skew"], answer: 2, tags: ["Model Monitoring","Concept Drift"] },
+    
+    { question: "Which Vertex AI service is mentioned for providing explainability insights, helping to understand feature attributions for model predictions?", options: ["Vertex AI Pipelines","Vertex AI Feature Store","Explainable AI (on Vertex AI Prediction)","Vertex AI Workbench"], answer: 3, tags: ["Model Explainability","Vertex AI"] },
+    
+    { question: "An ML Engineer needs to monitor the serving latency of a real-time prediction endpoint. Which type of metric is most relevant for this?", options: ["Model accuracy","Throughput","Latency","Recall"], answer: 3, tags: ["Model Monitoring","Latency"] },
+    
+    { question: "A company is deploying an AI system that makes critical decisions impacting individuals' lives. Which aspect of Responsible AI is paramount to ensure the system is not making discriminatory decisions?", options: ["Maximizing profit","Ensuring fairness","Minimizing explainability","Avoiding human oversight"], answer: 2, tags: ["Responsible AI","Fairness"] },
+    
+    { question: "To detect if the input data distribution to a production model has changed significantly compared to the training data, what specific type of monitoring is crucial?", options: ["Model accuracy monitoring","Data drift monitoring","Network performance monitoring","Compute utilization monitoring"], answer: 2, tags: ["Model Monitoring","Data Drift"] },
+    
+    { question: "What is a key consideration when setting up monitoring for a deployed ML model to compare its current performance against a known good state or a simpler model?", options: ["Monitoring model performance against baselines, simpler models, and across the time dimension","Only monitoring for memory leaks","Ignoring historical performance data","Monitoring only hardware metrics"], answer: 1, tags: ["Model Monitoring","Baselines"] },
+    
+    { question: "An ML Engineer is investigating a sudden increase in errors reported by a model serving endpoint. Which troubleshooting step would be most effective to identify the root cause?", options: ["Re-training the model immediately","Checking serving logs and error messages","Reducing the number of features in the model","Changing the model framework"], answer: 2, tags: ["Troubleshooting","Serving Errors"] },
+    
+    { question: "When monitoring for \"feature attribution drift,\" what kind of change are ML Engineers trying to detect?", options: ["Changes in model training time","Changes in the importance or contribution of input features to predictions over time","Changes in network latency","Changes in storage costs"], answer: 2, tags: ["Model Monitoring","Feature Attribution Drift"] },
+    
+    { question: "Which Google Cloud service helps in continuously evaluating models deployed on Vertex AI Endpoints, by comparing predictions with ground truth data?", options: ["Vertex AI Pipelines","Vertex AI Model Monitoring","Vertex AI Feature Store","Vertex AI Workbench"], answer: 2, tags: ["Model Monitoring","Vertex AI Model Monitoring"] },
+    
+    { question: "What is a key risk to AI solutions that involves malicious actors attempting to exploit vulnerabilities in the model or data to achieve unintended outcomes?", options: ["Model retraining","Unintentional exploitation of data or models (e.g., hacking)","Model optimization","Data preprocessing"], answer: 2, tags: ["AI Risks","Security"] },
+    
+    { question: "An ML Engineer needs to evaluate the performance of a deployed model for classification. Which of the following is a common continuous evaluation metric for classification tasks?", options: ["R-squared","Mean Absolute Error (MAE)","Accuracy","Root Mean Squared Error (RMSE)"], answer: 3, tags: ["Evaluation Metrics","Classification"] },
+    
+    { question: "To proactively identify potential problems in a deployed AI solution, what is a crucial practice related to continuous assessment?", options: ["One-time evaluation at deployment","Establishing continuous evaluation metrics","Relying solely on user feedback for issues","Avoiding any monitoring"], answer: 2, tags: ["Model Monitoring","Proactive Monitoring"] },
+    
+    { question: "What does \"Assessing AI solution readiness\" primarily involve in the context of Responsible AI?", options: ["Evaluating hardware specifications","Ensuring the solution is ready for deployment by assessing factors like fairness and bias","Measuring network throughput","Calculating data storage requirements"], answer: 2, tags: ["Responsible AI","AI Readiness"] },
+    
+    { question: "When troubleshooting a deployed ML model, an engineer finds that the model is making predictions on values outside the range it was trained on. This is an example of which common issue?", options: ["Model overfitting","Data leakage","Out-of-distribution data leading to serving errors","Concept drift"], answer: 3, tags: ["Troubleshooting","Serving Errors"] },
+    
+    { question: "What is a benefit of monitoring model performance across the time dimension?", options: ["To reduce the model''s size","To detect gradual degradation in performance or seasonal patterns","To eliminate the need for retraining","To make the model less interpretable"], answer: 2, tags: ["Model Monitoring","Time-Series Analysis"] },
+    
+    { question: "An ML Engineer is setting up alerts for a deployed model. What kind of alert would indicate a critical issue requiring immediate attention, related to the model's availability?", options: ["Alert for low CPU usage","Alert for high model serving error rates","Alert for high memory usage in the training environment","Alert for low network traffic"], answer: 2, tags: ["Model Monitoring","Alerts","Serving Errors"] },
+    
+    { question: "When implementing Model Explainability on Vertex AI, what is the primary goal?", options: ["To speed up model training","To provide insights into model predictions and feature importance","To automatically retrain the model","To reduce model serving costs"], answer: 2, tags: ["Model Explainability","Vertex AI"] },
+    
+    { question: "A company needs to continuously verify that its AI solution is not inadvertently revealing sensitive information. Which aspect of Responsible AI is relevant here?", options: ["Model throughput","Privacy and data security","Model versioning","Hardware efficiency"], answer: 2, tags: ["Responsible AI","Privacy"] },
+    
+    { question: "What is the purpose of monitoring \"common training and serving errors\" for an AI solution?", options: ["To generate new training data","To identify and diagnose issues that prevent the model from working correctly","To randomly change model parameters","To decrease the model''s accuracy"], answer: 2, tags: ["Troubleshooting","Errors"] },
+    
+    { question: "Which Google Cloud service provides comprehensive logging and monitoring capabilities for various services, including ML pipelines and deployed models?", options: ["Cloud Functions","Cloud Logging and Cloud Monitoring","Cloud SQL","Cloud CDN"], answer: 2, tags: ["Monitoring","Logging"] },
+    
+  ]
+};
+
+let questions = [];
+let selectedAnswers = [];
+let currentQuestion = 0;
+let timerInterval;
+let time = 0;
+let reviewIncorrectOnly = false
+
+function getRandomSample(arr, n) {
+  const result = [];
+  const taken = new Set();
+  while (result.length < n && result.length < arr.length) {
+    const idx = Math.floor(Math.random() * arr.length);
+    if (!taken.has(idx)) {
+      result.push(arr[idx]);
+      taken.add(idx);
+    }
+  }
+  return result;
+}
+
+function getSectionWeightedSample(pools, counts, tagFilter = null) {
+  const combined = [];
+  for (const [section, count] of Object.entries(counts)) {
+    const pool = tagFilter && tagFilter !== 'all' ? pools[section].filter(q => q.tags.includes(tagFilter)) : pools[section];
+    combined.push(...getRandomSample(pool, count));
+  }
+  return combined;
+}
+
+function populateTagFilter() {
+  const tags = new Set();
+  Object.values(sectionPools).flat().forEach(q => (q.tags || []).forEach(t => tags.add(t)));
+  const select = document.getElementById('tagSelect');
+  Array.from(tags).sort().forEach(tag => {
+    const option = document.createElement('option');
+    option.value = tag;
+    option.textContent = tag;
+    select.appendChild(option);
+  });
+}
+
+function startExam() {
+  const tag = document.getElementById("tagSelect").value;
+  const mode = document.getElementById("modeSelect").value;
+  questions = getSectionWeightedSample(sectionPools, rawSectionCounts[mode], tag);
+  selectedAnswers = new Array(questions.length);
+  currentQuestion = 0;
+  time = examDurations[mode];
+  clearInterval(timerInterval);
+  startTimer();
+  renderQuestion(currentQuestion);
+  document.getElementById("result").innerText = '';
+  document.getElementById("summary").classList.add("hidden");
+  document.getElementById("printBtn").classList.add("hidden");
+  document.getElementById("reviewWrongBtn").classList.add("hidden");
+  document.getElementById("exam").classList.remove("hidden");
+}
+
+document.getElementById("tagSelect").addEventListener("change", startExam);
+document.getElementById("modeSelect").addEventListener("change", startExam);
+
+function renderQuestion(idx) {
+  const q = questions[idx];
+  const container = document.getElementById("exam");
+  container.innerHTML = `
+    <p class="text-lg font-medium mb-4">Q${idx + 1}: ${q.question}</p>
+    ${q.options.map((opt, i) => `
+      <label class="block mb-2">
+        <input type="radio" name="q${idx}" value="${i + 1}" class="mr-2"> ${opt}
+      </label>
+    `).join('')}`;
+  if (selectedAnswers[idx] !== undefined) {
+    const radios = document.getElementsByName(`q${idx}`);
+    radios[selectedAnswers[idx]].checked = true;
+  }
+  document.getElementById("previousBtn").classList.toggle('hidden', idx <=0);
+  document.getElementById("nextBtn").classList.toggle('hidden', idx >= questions.length - 1);
+  document.getElementById("submitBtn").classList.toggle('hidden', idx < questions.length - 1);
+}
+
+function nextQuestion() {
+  saveAnswer(currentQuestion);
+  if (currentQuestion < questions.length - 1) {
+    currentQuestion++;
+    renderQuestion(currentQuestion);
+  }
+}
+
+
+function previousQuestion() {
+  saveAnswer(currentQuestion);
+  if (currentQuestion > 0) {
+    currentQuestion--;
+    renderQuestion(currentQuestion);
+  }
+}
+
+function saveAnswer(idx) {
+  const selected = document.querySelector(`input[name='q${idx}']:checked`);
+  if (selected) {
+    selectedAnswers[idx] = parseInt(selected.value);
+  }
+}
+
+function submitAnswers() {
+  saveAnswer(currentQuestion);
+  let score = 0;
+  questions.forEach((q, idx) => {
+    if (selectedAnswers[idx] === q.answer) score++;
+  });
+  const resultText = `🎉 You scored ${score} out of ${questions.length}`;
+  document.getElementById("result").innerText = resultText;
+  localStorage.setItem('lastScore', resultText);
+  clearInterval(timerInterval);
+  document.getElementById("exam").classList.add("hidden");
+  document.getElementById("previousBtn").classList.add("hidden");
+  document.getElementById("nextBtn").classList.add("hidden");
+  document.getElementById("submitBtn").classList.add("hidden");
+  showSummary();
+}
+
+function showSummary() {
+  const container = document.getElementById("summary");
+  let html = '<h2 class="text-xl font-semibold mb-4">📝 Summary</h2>';
+  questions.forEach((q, idx) => {
+    const selected = selectedAnswers[idx];
+    const correct = q.answer;
+    html += `
+      <div class="mb-4 p-4 border rounded-lg ${selected === correct ? 'bg-green-50' : 'bg-red-50'}">
+        <p class="font-medium">Q${idx + 1}: ${q.question}</p>
+        <ul class="list-inside">
+        ${q.options.map((opt, i) => `
+            <li class="${i + 1 === correct ? 'font-bold text-green-700' : ''} ${i + 1 === selected && i + 1 !== correct ? 'text-red-700 line-through' : ''}">
+            <strong>${i + 1}.</strong> ${opt}
+            </li>
+        `).join('')}
+        </ul>
+      </div>
+    `;
+  });
+  container.innerHTML = html;
+  container.classList.remove("hidden");
+  document.getElementById("printBtn").classList.remove("hidden");
+  document.getElementById("reviewWrongBtn").classList.remove("hidden");
+}
+
+function toggleReviewIncorrectOnly() {
+  reviewIncorrectOnly=!reviewIncorrectOnly
+  const incorrect = questions.map((q, i) => ({ q, selected: selectedAnswers[i], idx: i })).filter(e => reviewIncorrectOnly?e.selected !== e.q.answer:true);
+  const container = document.getElementById("summary");
+  let html = reviewIncorrectOnly?'<h2 class="text-xl font-semibold mb-4">❌ Incorrect Answers</h2>':'';
+  incorrect.forEach(({ q, selected, idx }) => {
+    html += `
+      <div class="mb-4 p-4 border rounded-lg bg-red-50">
+        <p class="font-medium">Q${idx + 1}: ${q.question}</p>
+        <ul class="list-disc list-inside">
+          ${q.options.map((opt, i) => `<li class="${i === q.answer ? 'font-bold text-green-700' : ''} ${i === selected && i !== q.answer ? 'text-red-700 line-through' : ''}">${opt}</li>`).join('')}
+        </ul>
+      </div>
+    `;
+  });
+
+  var btn=document.getElementById("reviewWrongBtn")
+
+  if (reviewIncorrectOnly) {
+    btn.classList.remove("bg-yellow-500");
+    btn.classList.add("bg-yellow-700");
+  } else {
+    btn.classList.remove("bg-yellow-700");
+    btn.classList.add("bg-yellow-500");
+  }
+  container.innerHTML = html;
+}
+
+function printSummary() {
+  window.print();
+}
+
+function startTimer() {
+  timerInterval = setInterval(() => {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    document.getElementById("timer").innerText = `⏳ Time Left: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    time--;
+    if (time < 0) {
+      clearInterval(timerInterval);
+      submitAnswers();
+    }
+  }, 1000);
+}
+
+populateTagFilter();
+startExam();
+</script>
+
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<style>
+@media print {
+  #timer, #nextBtn, #previousBtn, #submitBtn, #printBtn, #exam, h1, #tagSelect, #modeSelect, #reviewWrongBtn { display: none; }
+  body { background-color: white; color: black; }
+  #summary { padding-top: 20px; }
+}
+</style>
+
+  </div>
+</body>
+</html>

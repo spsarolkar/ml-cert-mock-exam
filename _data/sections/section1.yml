@@ -1,0 +1,306 @@
+- question: 'A data science team needs to build a model to predict if a customer will subscribe to a service (yes/no) based on historical usage data, which is stored in BigQuery. The team wants to leverage BigQuery ML for development. Which BigQuery ML model type is most appropriate for this business problem?'
+  options:
+  - Linear Regression
+  - Time-series
+  - Binary Classification
+  - Matrix Factorization
+  answer: 3
+  tags:
+  - BigQuery ML
+  - Model Selection
+- question: 'An ML Engineer is developing a new application that needs to extract specific entities (e.g., product names, prices) from unstructured invoice documents. Which type of Google Cloud service, specifically mentioned for industry-specific use cases, should the engineer consider to build this solution efficiently?'
+  options:
+  - Vision AI API
+  - Document AI API
+  - Natural Language API
+  - Speech-to-Text API
+  answer: 2
+  tags:
+  - ML APIs
+  - Document AI
+- question: 'A company wants to quickly develop a model to classify customer support tickets into predefined categories without deep machine learning expertise. They have a labeled dataset of text tickets. Which Google Cloud AutoML offering would be the most suitable choice?'
+  options:
+  - AutoML Tables
+  - AutoML Vision
+  - AutoML Text
+  - AutoML Video Intelligence
+  answer: 3
+  tags:
+  - AutoML
+  - Text Classification
+- question: 'An ML Engineer is tasked with creating an intelligent chatbot that can provide grounded answers to user queries by retrieving information from a large internal knowledge base. Which Google Cloud capability is specifically designed to help implement Retrieval Augmented Generation (RAG) applications for such a scenario?'
+  options:
+  - Model Garden
+  - Vertex AI Workbench
+  - Vertex AI Agent Builder
+  - BigQuery ML
+  answer: 3
+  tags:
+  - Generative AI
+  - RAG
+  - Vertex AI Agent Builder
+- question: 'A financial institution needs to predict stock prices based on historical time-series data. They want to use BigQuery ML due to their existing data infrastructure. Which BigQuery ML model type is best suited for forecasting numerical values over time?'
+  options:
+  - Linear Regression
+  - Time-series
+  - Boosted Trees
+  - Autoencoders
+  answer: 2
+  tags:
+  - BigQuery ML
+  - Forecasting
+- question: 'A marketing team wants to predict the likelihood of a customer clicking on an advertisement based on their Browse history and demographics, stored in BigQuery. They need a simple, interpretable model. Which BigQuery ML model type should they consider for this binary outcome prediction?'
+  options:
+  - Regression
+  - Linear Classification
+  - K-Means
+  - Factorization Machines
+  answer: 2
+  tags:
+  - BigQuery ML
+  - Classification
+- question: 'An ML Engineer is preparing a tabular dataset for AutoML training. The dataset contains various features, and some are highly correlated. What key step, often involving data transformation, is a consideration when preparing this data for AutoML?'
+  options:
+  - Manual hyperparameter tuning
+  - Feature selection
+  - Model architecture design
+  - Containerization of the model
+  answer: 2
+  tags:
+  - AutoML
+  - Data Preparation
+  - Feature Engineering
+- question: 'A developer wants to integrate an existing pre-trained image classification model into their application without building a model from scratch. They are looking for a low-code solution on Google Cloud. Which approach aligns with this requirement?'
+  options:
+  - Training a custom model on Vertex AI
+  - Building applications by using ML APIs from Model Garden
+  - Developing a model with BigQuery ML
+  - Implementing a custom TensorFlow pipeline
+  answer: 2
+  tags:
+  - ML APIs
+  - Model Garden
+  - Low-code AI
+- question: 'A business needs to predict continuous numerical values, such as housing prices, based on various features like size, location, and number of rooms, with data stored in BigQuery. Which BigQuery ML model type is appropriate for this task?'
+  options:
+  - Binary Classification
+  - Linear Regression
+  - Autoencoders
+  - Matrix Factorization
+  answer: 2
+  tags:
+  - BigQuery ML
+  - Regression
+- question: 'An ML Engineer is working with AutoML to train a custom model. After the training process, it’s necessary to adjust certain parameters or address unexpected behavior. What is a key consideration after a model has been trained using AutoML?'
+  options:
+  - Performing manual data labeling
+  - Configuring and debugging trained models
+  - Deploying to a non-Google Cloud environment
+  - Designing new features from scratch
+  answer: 2
+  tags:
+  - AutoML
+  - Model Configuration
+  - Debugging
+- question: 'A media company wants to recommend movies to users based on their past viewing habits and ratings. They have a large dataset of user-item interactions in BigQuery. Which BigQuery ML model type is suitable for building a recommendation system?'
+  options:
+  - Linear Classification
+  - Boosted Trees
+  - Matrix Factorization
+  - Time-series
+  answer: 3
+  tags:
+  - BigQuery ML
+  - Recommendation Systems
+- question: 'When preparing data for AutoML, especially for text or image data, what initial step is crucial for supervised learning tasks to define the target variable?'
+  options:
+  - Feature scaling
+  - Data labeling
+  - Dimensionality reduction
+  - Data anonymization
+  answer: 2
+  tags:
+  - AutoML
+  - Data Labeling
+- question: 'An ML Engineer is exploring various options for building AI solutions using foundation models. Which of these scenarios is directly supported by using ML APIs from Model Garden?'
+  options:
+  - Developing custom hardware accelerators
+  - Building applications by leveraging pre-trained foundation models
+  - Implementing complex distributed training jobs
+  - Designing custom database schemas
+  answer: 2
+  tags:
+  - Foundation Models
+  - Model Garden
+- question: 'A retail company wants to use AutoML to predict future demand for products. Which specific AutoML capability would they leverage to achieve this forecasting goal?'
+  options:
+  - AutoML Vision for object detection
+  - AutoML Text for sentiment analysis
+  - Creating forecasting models by using AutoML
+  - AutoML Tables for classification
+  answer: 3
+  tags:
+  - AutoML
+  - Forecasting
+- question: 'An ML Engineer is using BigQuery ML to predict a binary outcome. To evaluate the model''s performance, they need to generate predictions on new, unseen data. How is this typically done with BigQuery ML?'
+  options:
+  - Exporting the model to TensorFlow SavedModel format
+  - Generating predictions by using BigQuery ML
+  - Manual calculation of predictions
+  - Deploying the model to a custom endpoint
+  answer: 2
+  tags:
+  - BigQuery ML
+  - Predictions
+- question: 'Which type of machine learning model can BigQuery ML build for problems involving categories or groups, distinct from numerical regression?'
+  options:
+  - Time-series models
+  - Boosted trees models
+  - Autoencoders
+  - Linear and binary classification models
+  answer: 4
+  tags:
+  - BigQuery ML
+  - Classification
+- question: 'A data scientist wants to use BigQuery ML to create a model for a tabular dataset that might benefit from ensemble methods. Which BigQuery ML model type fits this description?'
+  options:
+  - Linear Regression
+  - Matrix Factorization
+  - Boosted Trees
+  - Time-series
+  answer: 3
+  tags:
+  - BigQuery ML
+  - Ensemble Models
+- question: 'An ML Engineer needs to build an application that utilizes a large language model for text summarization. They want to use a low-code approach, leveraging Google Cloud''s pre-trained models. Which service is most relevant for accessing and using such models?'
+  options:
+  - Cloud Functions
+  - Vertex AI Workbench
+  - Model Garden
+  - Cloud SQL
+  answer: 3
+  tags:
+  - Model Garden
+  - Generative AI
+- question: 'When using AutoML for training custom models, what types of unstructured data are explicitly mentioned as supported input for training?'
+  options:
+  - Only tabular data
+  - Text, speech, images, videos
+  - Sensor data and geospatial data
+  - Logs and metrics
+  answer: 2
+  tags:
+  - AutoML
+  - Data Types
+- question: 'A company wants to identify patterns in their customer data to segment them into different groups. This is an unsupervised learning task. Which BigQuery ML model type could be used for clustering customer data?'
+  options:
+  - Linear Classification
+  - K-Means
+  - Time-series
+  - Regression
+  answer: 2
+  tags:
+  - BigQuery ML
+  - Clustering
+- question: 'An ML Engineer is building an AI solution that needs to extract information from various types of documents, including PDFs and images of text. Which Google Cloud ML API is designed for processing such documents?'
+  options:
+  - Cloud Vision AI API
+  - Cloud Natural Language API
+  - Document AI API
+  - Cloud Translation API
+  answer: 3
+  tags:
+  - ML APIs
+  - Document AI
+- question: 'What is a core concept related to developing ML models using BigQuery ML, aside from building the model itself, that focuses on preparing the input for the model?'
+  options:
+  - Model deployment
+  - Feature engineering or selection
+  - A/B testing
+  - Continuous integration
+  answer: 2
+  tags:
+  - BigQuery ML
+  - Feature Engineering
+- question: 'A team is using AutoML to train a model for a computer vision task. What is a specific consideration for preparing data for AutoML when dealing with images?'
+  options:
+  - Converting images to audio files
+  - Data labeling for objects or categories
+  - Using SQL queries for image processing
+  - Generating synthetic image data only
+  answer: 2
+  tags:
+  - AutoML
+  - Image Data
+  - Data Labeling
+- question: 'When leveraging BigQuery ML, which consideration focuses on defining the problem structure and desired outcome for the model?'
+  options:
+  - Building the appropriate BigQuery ML model based on the business problem
+  - Optimizing hardware accelerators
+  - Integrating with external data sources
+  - Monitoring model performance in real-time
+  answer: 1
+  tags:
+  - BigQuery ML
+  - Business Problem
+- question: 'A company needs to implement a solution that allows users to interact with large text documents by asking questions and getting relevant answers, without a human in the loop. The solution must provide answers grounded in the document content. Which Vertex AI capability is best suited for this Retrieval Augmented Generation (RAG) scenario?'
+  options:
+  - Vertex AI Model Monitoring
+  - Vertex AI Agent Builder
+  - Vertex AI Feature Store
+  - Vertex AI Workbench
+  answer: 2
+  tags:
+  - Generative AI
+  - RAG
+  - Vertex AI Agent Builder
+- question: 'Which of the following is explicitly mentioned as a BigQuery ML model type used for learning latent features and often employed in unsupervised tasks like anomaly detection?'
+  options:
+  - Linear Classification
+  - Regression
+  - Autoencoders
+  - Time-series
+  answer: 3
+  tags:
+  - BigQuery ML
+  - Autoencoders
+- question: 'What specific type of workflow is mentioned under AutoML for preparing tabular data?'
+  options:
+  - AutoML Flows
+  - Tabular Workflows on AutoML
+  - Data Pipeline Workflows
+  - AutoML Data Prep
+  answer: 2
+  tags:
+  - AutoML
+  - Tabular Data
+- question: 'When building AI solutions, access to pre-trained, adaptable models is often desired. Which Google Cloud service provides a library of such models, including foundation models, that can be used via APIs?'
+  options:
+  - Vertex AI Experiments
+  - Vertex AI Pipelines
+  - Model Garden
+  - Vertex AI Endpoints
+  answer: 3
+  tags:
+  - Model Garden
+  - Foundation Models
+- question: 'An ML Engineer is debugging an AutoML-trained model that is not performing as expected. What is a listed consideration for addressing issues with such models?'
+  options:
+  - Manually adjusting model weights
+  - Configuring and debugging trained models
+  - Rewriting the AutoML algorithm
+  - Increasing the training budget indefinitely
+  answer: 2
+  tags:
+  - AutoML
+  - Debugging
+- question: 'A business requires a low-code approach to build a model that predicts a continuous numerical value. Their data is already in BigQuery. Which BigQuery ML model type directly addresses this requirement?'
+  options:
+  - Binary Classification
+  - Linear Regression
+  - Boosted Trees (for classification)
+  - Time-series (for discrete events)
+  answer: 2
+  tags:
+  - BigQuery ML
+  - Regression

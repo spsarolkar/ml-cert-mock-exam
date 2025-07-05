@@ -1,0 +1,302 @@
+- question: 'An ML Engineer needs to deploy a fraud detection model that processes transactions as they occur, requiring immediate predictions. Which serving strategy is most appropriate for this scenario?'
+  options:
+  - Batch inference
+  - Offline inference
+  - Online inference
+  - Scheduled inference
+  answer: 3
+  tags:
+  - Model Serving
+  - Inference
+- question: 'After deploying a new version of an ML model, the team wants to compare its performance against the existing production model without fully switching traffic. Which technique is explicitly mentioned for evaluating different versions of a model in a live environment?'
+  options:
+  - Model cloning
+  - A/B testing
+  - Shadow deployment
+  - Canary release
+  answer: 2
+  tags:
+  - Model Evaluation
+  - A/B Testing
+- question: 'A machine learning system needs to handle a rapidly increasing number of prediction requests during peak hours. The ML Engineer must ensure the serving backend can dynamically adjust to high throughput. Which Vertex AI capability is critical for scaling online model serving based on throughput?'
+  options:
+  - Vertex AI Feature Store
+  - Vertex AI Prediction
+  - Vertex AI Pipelines
+  - Vertex AI Workbench
+  answer: 2
+  tags:
+  - Model Scaling
+  - Vertex AI Prediction
+- question: 'To optimize a deployed ML model for production, an ML Engineer is focusing on improving its efficiency. Which of the following is a key consideration when tuning ML models for serving in production environments?'
+  options:
+  - Increasing model complexity
+  - Optimizing for increased performance, latency, memory, throughput
+  - Decreasing the training data size
+  - Reducing the number of model parameters
+  answer: 2
+  tags:
+  - Model Optimization
+  - Production Serving
+- question: 'An ML Engineer needs to serve a model that was trained using the PyTorch framework. Which consideration is important when deploying this model for serving on Google Cloud?'
+  options:
+  - Converting the model to TensorFlow Lite
+  - Using different frameworks (e.g., PyTorch, XGBoost) to serve models
+  - Deploying only to edge devices
+  - Ensuring batch inference is the only option
+  answer: 2
+  tags:
+  - Model Serving
+  - Frameworks
+- question: 'A company needs to process millions of images daily for an object detection task, but predictions do not need to be instantaneous. The priority is cost-efficiency and processing large volumes of data. Which serving strategy is most suitable for this scenario?'
+  options:
+  - Online inference
+  - Real-time inference
+  - Batch inference
+  - Streaming inference
+  answer: 3
+  tags:
+  - Model Serving
+  - Batch Inference
+- question: 'An ML Engineer is preparing a TensorFlow model for deployment on Vertex AI. To ensure consistent behavior, what should be packaged with the model artifact for serving?'
+  options:
+  - Only the model weights
+  - The model along with all necessary dependencies and serving code
+  - Only the training script
+  - A blank Docker image
+  answer: 2
+  tags:
+  - Model Deployment
+  - Model Packaging
+- question: 'When optimizing an ML model for lower inference latency on resource-constrained devices, which technique involves reducing the precision of numerical representations (e.g., from float32 to float16 or int8)?'
+  options:
+  - Pruning
+  - Quantization
+  - Knowledge Distillation
+  - Ensemble Learning
+  answer: 2
+  tags:
+  - Model Optimization
+  - Latency
+  - Quantization
+- question: 'An ML Engineer is deploying a new customer sentiment analysis model and wants to ensure that the model behaves fairly across different demographic groups. Which practice should be integrated into the deployment and monitoring process?'
+  options:
+  - Prioritizing only model accuracy
+  - Building and deploying responsible AI solutions (e.g., fairness, privacy)
+  - Maximizing model complexity
+  - Reducing the number of test cases
+  answer: 2
+  tags:
+  - Responsible AI
+  - Fairness
+- question: 'To optimize a deep learning model for faster inference without significantly impacting accuracy, an ML Engineer removes redundant or less important connections in the neural network. What is this optimization technique called?'
+  options:
+  - Quantization
+  - Pruning
+  - Knowledge Distillation
+  - Layer Normalization
+  answer: 2
+  tags:
+  - Model Optimization
+  - Pruning
+- question: 'A development team is deploying a new recommendation model. They want to expose the model as a REST API for their front-end application. Which Vertex AI capability allows creating such API endpoints for online predictions?'
+  options:
+  - Vertex AI Workbench
+  - Vertex AI Pipelines
+  - Vertex AI Endpoints
+  - Vertex AI Feature Store
+  answer: 3
+  tags:
+  - Model Deployment
+  - API Endpoints
+- question: 'When deploying a model, an ML Engineer needs to specify the compute resources (e.g., CPU, GPU memory) required for serving. Which aspect of model deployment involves configuring these resources?'
+  options:
+  - Data ingestion for training
+  - Hardware requirements
+  - Model versioning
+  - Feature engineering
+  answer: 2
+  tags:
+  - Model Deployment
+  - Hardware Requirements
+- question: 'A company is preparing to deploy an ML model that processes sensitive user data. What is a critical consideration for building and deploying responsible AI solutions to protect user privacy?'
+  options:
+  - Maximizing model throughput
+  - Implementing data anonymization and encryption
+  - Using only open-source models
+  - Minimizing the number of features
+  answer: 2
+  tags:
+  - Responsible AI
+  - Privacy
+- question: 'An ML Engineer needs to perform a one-time inference on a large historical dataset for reporting purposes. The latency is not critical, but throughput is important. Which type of inference is suitable for this?'
+  options:
+  - Online inference
+  - Batch inference
+  - Real-time streaming
+  - Low-latency serving
+  answer: 2
+  tags:
+  - Model Serving
+  - Batch Inference
+- question: 'Which Google Cloud service is typically used as the underlying infrastructure for hosting models deployed via Vertex AI Prediction for online serving, providing scalability and management?'
+  options:
+  - Cloud Functions
+  - Google Kubernetes Engine (GKE)
+  - Cloud SQL
+  - Cloud Dataflow
+  answer: 2
+  tags:
+  - Model Serving
+  - GKE
+- question: 'When building and deploying responsible AI solutions, what is a key ethical consideration related to the outcomes of the AI system, particularly in high-stakes domains?'
+  options:
+  - Optimizing for the lowest possible latency
+  - Ensuring fairness and minimizing bias
+  - Maximizing the number of model versions
+  - Reducing the model size for faster downloads
+  answer: 2
+  tags:
+  - Responsible AI
+  - Ethics
+- question: 'To reduce the memory footprint of a large deep learning model during serving, an ML Engineer wants to remove redundant layers or parameters. What is this model optimization technique called?'
+  options:
+  - Quantization
+  - Pruning
+  - Knowledge Distillation
+  - Fine-tuning
+  answer: 2
+  tags:
+  - Model Optimization
+  - Memory Optimization
+- question: 'An ML Engineer is deploying a new model version to production. To minimize risk, they want to gradually roll out the new version to a small subset of users before a full rollout. Which deployment strategy supports this gradual rollout?'
+  options:
+  - Blue/Green Deployment
+  - Canary Deployment
+  - Rolling Update
+  - A/B Testing
+  answer: 2
+  tags:
+  - Model Deployment
+  - Deployment Strategy
+- question: 'What is a key consideration when tuning ML models specifically for improved throughput during serving?'
+  options:
+  - Reducing the number of training epochs
+  - Batching multiple inference requests
+  - Increasing the model''s complexity
+  - Decreasing the learning rate
+  answer: 2
+  tags:
+  - Model Optimization
+  - Throughput
+- question: 'An ML Engineer is deploying a TensorFlow model that was custom-trained. To ensure proper execution during serving, what is the recommended way to package the model artifact for Vertex AI Prediction?'
+  options:
+  - As a Python script
+  - As a TensorFlow SavedModel format
+  - As a CSV file
+  - As a Jupyter Notebook
+  answer: 2
+  tags:
+  - Model Deployment
+  - TensorFlow
+- question: 'Which aspect of building and deploying responsible AI solutions emphasizes the ability to understand why an AI model made a particular decision?'
+  options:
+  - Model interpretability and explainability
+  - Model versioning
+  - Data transfer speed
+  - Cost optimization
+  answer: 1
+  tags:
+  - Responsible AI
+  - Explainability
+- question: 'A company needs to serve a real-time recommendation model with very low latency requirements. Which type of compute resource is often used to achieve high performance and low latency for deep learning models during online inference?'
+  options:
+  - Standard CPUs
+  - TPUs
+  - HDDs
+  - CPUs with minimal cores
+  answer: 2
+  tags:
+  - Model Serving
+  - Low Latency
+  - TPUs
+- question: 'When deploying models, what is a crucial aspect of model lifecycle management to ensure that specific versions can be rolled back if issues arise?'
+  options:
+  - Model cloning
+  - Model versioning
+  - Model explainability
+  - Model monitoring
+  answer: 2
+  tags:
+  - Model Deployment
+  - Model Versioning
+- question: 'To ensure a deployed model is robust and reliable, which type of testing should be performed continuously during the serving phase?'
+  options:
+  - Unit testing of the training script
+  - Load testing and stress testing of the serving endpoint
+  - Manual data entry for predictions
+  - One-time model validation
+  answer: 2
+  tags:
+  - Model Serving
+  - Testing
+- question: 'An ML Engineer is optimizing a model for edge deployment where memory and computational power are very limited. Which model optimization technique focuses on creating a smaller, faster model from a larger, more complex one?'
+  options:
+  - Fine-tuning
+  - Knowledge Distillation
+  - Data Augmentation
+  - Ensemble Learning
+  answer: 2
+  tags:
+  - Model Optimization
+  - Edge Deployment
+- question: 'Which Google Cloud service is typically used to manage and serve custom containers for ML models, providing flexibility for various frameworks and dependencies?'
+  options:
+  - Cloud Functions
+  - Cloud Run
+  - Vertex AI Prediction (Custom Containers)
+  - Cloud Build
+  answer: 3
+  tags:
+  - Model Serving
+  - Custom Containers
+- question: 'What is a critical consideration for tuning ML models to achieve optimal balance between performance (e.g., accuracy) and efficiency (e.g., latency, throughput) in production?'
+  options:
+  - Training for infinite epochs
+  - Iterative experimentation and evaluation
+  - Deploying without any tuning
+  - Maximizing model size
+  answer: 2
+  tags:
+  - Model Optimization
+  - Performance Tuning
+- question: 'When deploying a model that outputs sensitive predictions, such as medical diagnoses, what is a vital aspect of responsible AI to consider?'
+  options:
+  - Only deploying to a single region
+  - Transparency and interpretability of predictions
+  - Minimizing the number of features
+  - Ignoring historical bias in data
+  answer: 2
+  tags:
+  - Responsible AI
+  - Transparency
+- question: 'An ML Engineer needs to perform offline evaluation of a model on a large dataset before deciding on deployment. Which type of inference is performed in a batch manner, typically for evaluation or large-scale scoring?'
+  options:
+  - Online Inference
+  - Real-time Inference
+  - Batch Inference
+  - Streaming Inference
+  answer: 3
+  tags:
+  - Model Serving
+  - Offline Evaluation
+- question: 'To reduce the computational cost and energy consumption of a deployed model, an ML Engineer applies techniques that make the model smaller and faster. This aligns with which broader goal?'
+  options:
+  - Increasing model complexity
+  - Green AI and resource efficiency
+  - Maximizing data storage
+  - Ignoring model performance
+  answer: 2
+  tags:
+  - Model Optimization
+  - Green AI

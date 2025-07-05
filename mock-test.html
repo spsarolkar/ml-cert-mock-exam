@@ -1,0 +1,287 @@
+---
+layout: default
+title: Mock Exam - GCP ML Engineer
+---
+
+<div class="container mx-auto p-4">
+  <h1 class="text-2xl font-bold mb-4 text-center">Mock Exam - Google Cloud ML Engineer</h1>
+
+  <div class="text-center mb-4 space-y-2">
+    <div>
+      <label for="tagSelect" class="mr-2 font-semibold">Filter by Tag:</label>
+      <select id="tagSelect" class="border border-gray-300 p-2 rounded">
+        <option value="all">All Topics</option>
+      </select>
+    </div>
+    <div>
+      <label for="modeSelect" class="mr-2 font-semibold">Exam Mode:</label>
+      <select id="modeSelect" class="border border-gray-300 p-2 rounded">
+        <option value="full">Full (120 min)</option>
+        <option value="quick">Quick (30 min)</option>
+        <option value="sample">Sample (10 min)</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="timer" class="text-center text-red-600 font-bold text-lg mb-4"></div>
+  <div id="exam" class="bg-white rounded-xl shadow-md p-6 max-w-xl mx-auto"></div>
+
+  <div class="flex justify-center mt-4 space-x-7">
+    <button onclick="previousQuestion()" id="previousBtn" class="w-32 bg-blue-500 text-white px-6 py-2 rounded hidden">Previous</button>
+    <button onclick="nextQuestion()" id="nextBtn" class="w-32 bg-blue-500 text-white px-6 py-2 rounded hidden">Next</button>
+    <button onclick="submitAnswers()" id="submitBtn" class="w-32 bg-green-600 text-white px-6 py-2 rounded hidden">Submit</button>
+  </div>
+
+  <div id="result" class="mt-6 text-xl text-center font-semibold"></div>
+  <div id="summary" class="mt-6 text-base max-w-3xl mx-auto hidden"></div>
+  <div class="flex justify-center mt-4">
+    <button onclick="printSummary()" id="printBtn" class="bg-purple-600 text-white px-6 py-2 rounded hidden">Download PDF</button>
+    <button onclick="toggleReviewIncorrectOnly()" id="reviewWrongBtn" class="ml-4 bg-yellow-500 text-white px-6 py-2 rounded hidden">Review Incorrect</button>
+  </div>
+</div>
+
+<script>
+const rawSectionCounts = {
+  full: { section1: 7, section2: 9, section3: 10, section4: 11, section5: 13, section6: 8 },
+  quick: { section1: 3, section2: 3, section3: 4, section4: 4, section5: 4, section6: 2 },
+  sample: { section1: 1, section2: 1, section3: 1, section4: 1, section5: 1, section6: 1 }
+};
+
+const examDurations = { full: 120 * 60, quick: 30 * 60, sample: 10 * 60 };
+
+const sectionPools = {
+  section1: [
+    {% for q in site.data.sections.section1 %}
+    { question: {{ q.question | jsonify }}, options: {{ q.options | jsonify }}, answer: {{ q.answer }}, tags: {{ q.tags | jsonify }} },
+    {% endfor %}
+  ],
+  section2: [
+    {% for q in site.data.sections.section2 %}
+    { question: {{ q.question | jsonify }}, options: {{ q.options | jsonify }}, answer: {{ q.answer }}, tags: {{ q.tags | jsonify }} },
+    {% endfor %}
+  ],
+  section3: [
+    {% for q in site.data.sections.section3 %}
+    { question: {{ q.question | jsonify }}, options: {{ q.options | jsonify }}, answer: {{ q.answer }}, tags: {{ q.tags | jsonify }} },
+    {% endfor %}
+  ],
+  section4: [
+    {% for q in site.data.sections.section4 %}
+    { question: {{ q.question | jsonify }}, options: {{ q.options | jsonify }}, answer: {{ q.answer }}, tags: {{ q.tags | jsonify }} },
+    {% endfor %}
+  ],
+  section5: [
+    {% for q in site.data.sections.section5 %}
+    { question: {{ q.question | jsonify }}, options: {{ q.options | jsonify }}, answer: {{ q.answer }}, tags: {{ q.tags | jsonify }} },
+    {% endfor %}
+  ],
+  section6: [
+    {% for q in site.data.sections.section6 %}
+    { question: {{ q.question | jsonify }}, options: {{ q.options | jsonify }}, answer: {{ q.answer }}, tags: {{ q.tags | jsonify }} },
+    {% endfor %}
+  ]
+};
+
+let questions = [];
+let selectedAnswers = [];
+let currentQuestion = 0;
+let timerInterval;
+let time = 0;
+let reviewIncorrectOnly = false
+
+function getRandomSample(arr, n) {
+  const result = [];
+  const taken = new Set();
+  while (result.length < n && result.length < arr.length) {
+    const idx = Math.floor(Math.random() * arr.length);
+    if (!taken.has(idx)) {
+      result.push(arr[idx]);
+      taken.add(idx);
+    }
+  }
+  return result;
+}
+
+function getSectionWeightedSample(pools, counts, tagFilter = null) {
+  const combined = [];
+  for (const [section, count] of Object.entries(counts)) {
+    const pool = tagFilter && tagFilter !== 'all' ? pools[section].filter(q => q.tags.includes(tagFilter)) : pools[section];
+    combined.push(...getRandomSample(pool, count));
+  }
+  return combined;
+}
+
+function populateTagFilter() {
+  const tags = new Set();
+  Object.values(sectionPools).flat().forEach(q => (q.tags || []).forEach(t => tags.add(t)));
+  const select = document.getElementById('tagSelect');
+  Array.from(tags).sort().forEach(tag => {
+    const option = document.createElement('option');
+    option.value = tag;
+    option.textContent = tag;
+    select.appendChild(option);
+  });
+}
+
+function startExam() {
+  const tag = document.getElementById("tagSelect").value;
+  const mode = document.getElementById("modeSelect").value;
+  questions = getSectionWeightedSample(sectionPools, rawSectionCounts[mode], tag);
+  selectedAnswers = new Array(questions.length);
+  currentQuestion = 0;
+  time = examDurations[mode];
+  clearInterval(timerInterval);
+  startTimer();
+  renderQuestion(currentQuestion);
+  document.getElementById("result").innerText = '';
+  document.getElementById("summary").classList.add("hidden");
+  document.getElementById("printBtn").classList.add("hidden");
+  document.getElementById("reviewWrongBtn").classList.add("hidden");
+  document.getElementById("exam").classList.remove("hidden");
+}
+
+document.getElementById("tagSelect").addEventListener("change", startExam);
+document.getElementById("modeSelect").addEventListener("change", startExam);
+
+function renderQuestion(idx) {
+  const q = questions[idx];
+  const container = document.getElementById("exam");
+  container.innerHTML = `
+    <p class="text-lg font-medium mb-4">Q${idx + 1}: ${q.question}</p>
+    ${q.options.map((opt, i) => `
+      <label class="block mb-2">
+        <input type="radio" name="q${idx}" value="${i + 1}" class="mr-2"> ${opt}
+      </label>
+    `).join('')}`;
+  if (selectedAnswers[idx] !== undefined) {
+    const radios = document.getElementsByName(`q${idx}`);
+    radios[selectedAnswers[idx]].checked = true;
+  }
+  document.getElementById("previousBtn").classList.toggle('hidden', idx <=0);
+  document.getElementById("nextBtn").classList.toggle('hidden', idx >= questions.length - 1);
+  document.getElementById("submitBtn").classList.toggle('hidden', idx < questions.length - 1);
+}
+
+function nextQuestion() {
+  saveAnswer(currentQuestion);
+  if (currentQuestion < questions.length - 1) {
+    currentQuestion++;
+    renderQuestion(currentQuestion);
+  }
+}
+
+
+function previousQuestion() {
+  saveAnswer(currentQuestion);
+  if (currentQuestion > 0) {
+    currentQuestion--;
+    renderQuestion(currentQuestion);
+  }
+}
+
+function saveAnswer(idx) {
+  const selected = document.querySelector(`input[name='q${idx}']:checked`);
+  if (selected) {
+    selectedAnswers[idx] = parseInt(selected.value);
+  }
+}
+
+function submitAnswers() {
+  saveAnswer(currentQuestion);
+  let score = 0;
+  questions.forEach((q, idx) => {
+    if (selectedAnswers[idx] === q.answer) score++;
+  });
+  const resultText = `🎉 You scored ${score} out of ${questions.length}`;
+  document.getElementById("result").innerText = resultText;
+  localStorage.setItem('lastScore', resultText);
+  clearInterval(timerInterval);
+  document.getElementById("exam").classList.add("hidden");
+  document.getElementById("previousBtn").classList.add("hidden");
+  document.getElementById("nextBtn").classList.add("hidden");
+  document.getElementById("submitBtn").classList.add("hidden");
+  showSummary();
+}
+
+function showSummary() {
+  const container = document.getElementById("summary");
+  let html = '<h2 class="text-xl font-semibold mb-4">📝 Summary</h2>';
+  questions.forEach((q, idx) => {
+    const selected = selectedAnswers[idx];
+    const correct = q.answer;
+    html += `
+      <div class="mb-4 p-4 border rounded-lg ${selected === correct ? 'bg-green-50' : 'bg-red-50'}">
+        <p class="font-medium">Q${idx + 1}: ${q.question}</p>
+        <ul class="list-inside">
+        ${q.options.map((opt, i) => `
+            <li class="${i + 1 === correct ? 'font-bold text-green-700' : ''} ${i + 1 === selected && i + 1 !== correct ? 'text-red-700 line-through' : ''}">
+            <strong>${i + 1}.</strong> ${opt}
+            </li>
+        `).join('')}
+        </ul>
+      </div>
+    `;
+  });
+  container.innerHTML = html;
+  container.classList.remove("hidden");
+  document.getElementById("printBtn").classList.remove("hidden");
+  document.getElementById("reviewWrongBtn").classList.remove("hidden");
+}
+
+function toggleReviewIncorrectOnly() {
+  reviewIncorrectOnly=!reviewIncorrectOnly
+  const incorrect = questions.map((q, i) => ({ q, selected: selectedAnswers[i], idx: i })).filter(e => reviewIncorrectOnly?e.selected !== e.q.answer:true);
+  const container = document.getElementById("summary");
+  let html = reviewIncorrectOnly?'<h2 class="text-xl font-semibold mb-4">❌ Incorrect Answers</h2>':'';
+  incorrect.forEach(({ q, selected, idx }) => {
+    html += `
+      <div class="mb-4 p-4 border rounded-lg bg-red-50">
+        <p class="font-medium">Q${idx + 1}: ${q.question}</p>
+        <ul class="list-disc list-inside">
+          ${q.options.map((opt, i) => `<li class="${i === q.answer ? 'font-bold text-green-700' : ''} ${i === selected && i !== q.answer ? 'text-red-700 line-through' : ''}">${opt}</li>`).join('')}
+        </ul>
+      </div>
+    `;
+  });
+
+  var btn=document.getElementById("reviewWrongBtn")
+
+  if (reviewIncorrectOnly) {
+    btn.classList.remove("bg-yellow-500");
+    btn.classList.add("bg-yellow-700");
+  } else {
+    btn.classList.remove("bg-yellow-700");
+    btn.classList.add("bg-yellow-500");
+  }
+  container.innerHTML = html;
+}
+
+function printSummary() {
+  window.print();
+}
+
+function startTimer() {
+  timerInterval = setInterval(() => {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    document.getElementById("timer").innerText = `⏳ Time Left: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    time--;
+    if (time < 0) {
+      clearInterval(timerInterval);
+      submitAnswers();
+    }
+  }, 1000);
+}
+
+populateTagFilter();
+startExam();
+</script>
+
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<style>
+@media print {
+  #timer, #nextBtn, #previousBtn, #submitBtn, #printBtn, #exam, h1, #tagSelect, #modeSelect, #reviewWrongBtn { display: none; }
+  body { background-color: white; color: black; }
+  #summary { padding-top: 20px; }
+}
+</style>

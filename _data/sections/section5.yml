@@ -1,0 +1,306 @@
+- question: 'An ML team is developing a new end-to-end ML pipeline. They need to ensure that the data preprocessing logic applied during training is identical to the logic applied during serving to prevent discrepancies. Which consideration addresses this critical aspect?'
+  options:
+  - Ensuring consistent data pre-processing between training and serving
+  - Using different data validation rules for training and serving
+  - Relying on manual data checks for consistency
+  - Decoupling training and serving preprocessing entirely
+  answer: 1
+  tags:
+  - ML Pipelines
+  - Data Consistency
+- question: 'A company wants to automate the entire lifecycle of their ML models, including continuous integration and continuous delivery (CI/CD) for model deployment. Which Google Cloud service or concept is explicitly mentioned for enabling CI/CD model deployment in the context of automating model retraining?'
+  options:
+  - Cloud Functions
+  - Jenkins
+  - Cloud Scheduler
+  - Cloud Pub/Sub
+  answer: 2
+  tags:
+  - MLOps
+  - CI/CD
+- question: 'An ML Engineer is setting up an orchestration framework for a complex ML pipeline that involves multiple interdependent steps, including data ingestion, training, and evaluation. Which orchestration framework is explicitly mentioned for this purpose?'
+  options:
+  - Apache Airflow (non-Composer)
+  - Kubeflow Pipelines
+  - Apache Spark
+  - Apache Beam
+  answer: 2
+  tags:
+  - Orchestration
+  - Kubeflow Pipelines
+- question: 'When tracking and auditing metadata for ML models, what is a key aspect mentioned regarding model and dataset versions?'
+  options:
+  - Only tracking the final deployed model version
+  - Ignoring dataset versions after initial training
+  - Hooking into model and dataset versioning
+  - Manually documenting changes in a spreadsheet
+  answer: 3
+  tags:
+  - Metadata Tracking
+  - Versioning
+- question: 'A team is designing a system that uses TensorFlow Extended (TFX) components to build an ML pipeline. Which Google Cloud service is mentioned for system design with TFX components or Kubeflow DSL?'
+  options:
+  - Cloud Storage
+  - BigQuery
+  - Dataflow
+  - Cloud SQL
+  answer: 3
+  tags:
+  - ML Pipelines
+  - TFX
+  - Dataflow
+- question: 'An ML Engineer is designing a flexible and scalable ML pipeline that can be composed of reusable components. Which architecture concept is central to this approach?'
+  options:
+  - Monolithic architecture
+  - Componentizing ML pipelines
+  - Manual pipeline execution
+  - Standalone script execution
+  answer: 2
+  tags:
+  - ML Pipelines
+  - Componentization
+- question: 'To ensure that a deployed model remains accurate over time, especially with changing data patterns, what automated process is crucial?'
+  options:
+  - Manual model debugging
+  - One-time model deployment
+  - Automating model retraining
+  - Ad-hoc model evaluation
+  answer: 3
+  tags:
+  - Model Retraining
+  - Automation
+- question: 'An ML Engineer needs to trace the origin of a specific model version, including the training data used, the code executed, and the hyperparameters. Which aspect of metadata tracking enables this comprehensive traceability?'
+  options:
+  - Model performance metrics
+  - Model and data lineage
+  - Model serving endpoint
+  - Model cost analysis
+  answer: 2
+  tags:
+  - Metadata Tracking
+  - Lineage
+- question: 'A company needs to orchestrate a complex ML workflow that involves data extraction, transformation, model training, evaluation, and deployment, with dependencies between steps. Which type of tool is explicitly mentioned for developing end-to-end ML pipelines?'
+  options:
+  - Simple cron jobs
+  - Orchestration framework (e.g., Kubeflow Pipelines)
+  - Manual shell scripts
+  - Cloud Logging
+  answer: 2
+  tags:
+  - ML Pipelines
+  - Orchestration
+- question: 'When defining an appropriate retraining policy for a model, what is a key consideration to ensure the model remains relevant and performs well in production?'
+  options:
+  - Only retraining when manual intervention is required
+  - Determining an appropriate retraining policy (e.g., schedule, performance drop)
+  - Retraining once a year regardless of performance
+  - Avoiding retraining to save costs
+  answer: 2
+  tags:
+  - Model Retraining
+  - Retraining Policy
+- question: 'Which Vertex AI service is specifically designed for tracking and comparing model artifacts and versions, along with their associated metrics and parameters?'
+  options:
+  - Vertex AI Feature Store
+  - Vertex AI Model Registry
+  - Vertex AI Experiments
+  - Vertex AI Prediction
+  answer: 3
+  tags:
+  - Metadata Tracking
+  - Vertex AI Experiments
+- question: 'An ML Engineer is designing a hybrid cloud ML pipeline. Which orchestration framework is known for its flexibility across various environments, including hybrid and multi-cloud strategies?'
+  options:
+  - AWS Step Functions
+  - Azure Data Factory
+  - Cloud Composer (managed Apache Airflow)
+  - SageMaker Pipelines
+  answer: 3
+  tags:
+  - Orchestration
+  - Hybrid Cloud
+- question: 'To implement continuous delivery for ML models, what is a crucial practice involving automated testing and deployment of new model versions?'
+  options:
+  - Manual model validation only
+  - Continuous integration and continuous delivery (CI/CD) model deployment
+  - One-time model evaluation
+  - Ad-hoc deployment
+  answer: 2
+  tags:
+  - MLOps
+  - CI/CD
+- question: 'When designing an ML pipeline, what is a critical consideration to ensure that the pipeline is robust and can recover from failures?'
+  options:
+  - Using only manual steps
+  - Implementing error handling and retry mechanisms
+  - Ignoring intermediate outputs
+  - Deploying without testing
+  answer: 2
+  tags:
+  - ML Pipelines
+  - Robustness
+- question: 'What is the primary benefit of tracking and auditing metadata in ML pipelines?'
+  options:
+  - To reduce training time
+  - To ensure model reproducibility and traceability
+  - To increase model accuracy
+  - To decrease storage costs
+  answer: 2
+  tags:
+  - Metadata Tracking
+  - Reproducibility
+- question: 'An ML Engineer wants to automate the retraining of a model every time new data becomes available. Which type of trigger would be most appropriate for this scenario?'
+  options:
+  - Manual trigger only
+  - Time-based schedule
+  - Data-driven trigger (e.g., new data in Cloud Storage)
+  - Code push to repository
+  answer: 3
+  tags:
+  - Model Retraining
+  - Automation
+- question: 'Which Google Cloud service is a managed version of Apache Airflow, commonly used for orchestrating complex workflows, including ML pipelines?'
+  options:
+  - Cloud Functions
+  - Cloud Composer
+  - Cloud Dataflow
+  - Cloud Run
+  answer: 2
+  tags:
+  - Orchestration
+  - Cloud Composer
+- question: 'When designing ML pipelines, what does "system design with TFX components or Kubeflow DSL" imply regarding the choice of tools?'
+  options:
+  - Using only proprietary Google Cloud tools
+  - Leveraging open-source frameworks like TensorFlow Extended (TFX) or Kubeflow Pipelines Domain Specific Language (DSL)
+  - Developing pipelines entirely from scratch using Python
+  - Avoiding any pre-built components
+  answer: 2
+  tags:
+  - ML Pipelines
+  - TFX
+  - Kubeflow DSL
+- question: 'A team needs to ensure that their ML pipeline can be easily modified and extended in the future without breaking existing functionalities. Which design principle addresses this need?'
+  options:
+  - Creating a monolithic pipeline
+  - Designing modular and extensible pipelines
+  - Using hardcoded parameters
+  - Avoiding version control for pipeline code
+  answer: 2
+  tags:
+  - ML Pipelines
+  - Modularity
+- question: 'To ensure a consistent and reliable process for updating models in production, what practice should be implemented in the model retraining phase?'
+  options:
+  - Manual deployment of every new model
+  - Automated deployment through CI/CD pipelines
+  - Only updating models once a year
+  - Relying on ad-hoc script execution
+  answer: 2
+  tags:
+  - Model Retraining
+  - CI/CD
+- question: 'Which Vertex AI service is designed to record and query metadata generated during ML workflow executions, such as artifacts, executions, and lineage?'
+  options:
+  - Vertex AI Feature Store
+  - Vertex AI Model Registry
+  - Vertex ML Metadata
+  - Vertex AI Workbench
+  answer: 3
+  tags:
+  - Metadata Tracking
+  - Vertex ML Metadata
+- question: 'An ML Engineer is designing a new ML pipeline for real-time predictions. What is a key consideration for the data flow within such a pipeline, particularly regarding latency?'
+  options:
+  - Using batch processing for all steps
+  - Optimizing for low-latency data flow
+  - Ignoring data freshness
+  - Relying on manual data transfers
+  answer: 2
+  tags:
+  - ML Pipelines
+  - Real-time
+  - Latency
+- question: 'When automating model retraining, what is a crucial factor to determine when a model should be retrained automatically?'
+  options:
+  - The color of the deployment dashboard
+  - A defined retraining policy based on performance decay or data drift
+  - The number of data scientists in the team
+  - The amount of free storage space
+  answer: 2
+  tags:
+  - Model Retraining
+  - Retraining Policy
+- question: 'What is a primary benefit of using a managed orchestration framework like Cloud Composer for ML pipelines?'
+  options:
+  - It removes the need for any code development.
+  - It provides scalability, reliability, and simplified management for complex workflows.
+  - It strictly limits the types of ML models that can be used.
+  - It only supports manual execution of tasks.
+  answer: 2
+  tags:
+  - Orchestration
+  - Cloud Composer
+- question: 'Which Google Cloud service is often used in CI/CD pipelines to build and test Docker images for custom model training and serving containers?'
+  options:
+  - Cloud Source Repositories
+  - Cloud Build
+  - Cloud Deployment Manager
+  - Cloud Functions
+  answer: 2
+  tags:
+  - CI/CD
+  - Cloud Build
+- question: 'When designing ML pipelines, what is the importance of modularity and reusability of components?'
+  options:
+  - To make the pipeline harder to debug
+  - To increase development time
+  - To facilitate easier updates, testing, and collaboration
+  - To restrict pipeline functionality
+  answer: 3
+  tags:
+  - ML Pipelines
+  - Modularity
+  - Reusability
+- question: 'An ML Engineer needs to audit all changes made to a model and its associated datasets over time for compliance reasons. Which metadata tracking capability is essential for this?'
+  options:
+  - Real-time prediction logs
+  - Hooking into model and dataset versioning
+  - Serving endpoint monitoring
+  - Cost tracking for compute resources
+  answer: 2
+  tags:
+  - Metadata Tracking
+  - Auditing
+- question: 'What is a critical aspect of automated model retraining that involves determining if a newly trained model is indeed better than the current production model before deployment?'
+  options:
+  - Manual A/B testing
+  - Automated model evaluation and validation
+  - Disabling all monitoring
+  - Ignoring historical performance
+  answer: 2
+  tags:
+  - Model Retraining
+  - Automated Evaluation
+- question: 'An ML team wants to version control their ML pipeline code and track changes over time. Which Google Cloud service is typically used for source code management?'
+  options:
+  - Cloud Storage
+  - Cloud Source Repositories
+  - Cloud Logging
+  - Cloud Monitoring
+  answer: 2
+  tags:
+  - ML Pipelines
+  - Version Control
+  - Source Control
+- question: 'What is a primary objective of designing ML pipelines in a structured and automated manner?'
+  options:
+  - To make the ML process more manual and complex
+  - To enable reproducibility, scalability, and faster iteration cycles
+  - To eliminate the need for data preprocessing
+  - To reduce the model''s accuracy
+  answer: 2
+  tags:
+  - ML Pipelines
+  - Automation
+  - MLOps

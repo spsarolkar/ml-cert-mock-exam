@@ -1,0 +1,307 @@
+- question: 'An ML Engineer is building a new model and needs to select the appropriate ML framework. The choice of framework should align with specific interpretability requirements for the model. What is a key consideration when making this choice?'
+  options:
+  - Cost of compute resources
+  - Modeling techniques given interpretability requirements
+  - Size of the training dataset
+  - Network latency for data ingestion
+  answer: 2
+  tags:
+  - Model Building
+  - Interpretability
+- question: 'A data science team is preparing a large image dataset for custom model training. To ensure efficient and scalable training, how should the training data be organized on Google Cloud, according to the exam guide?'
+  options:
+  - Store all images in a single CSV file in Cloud Storage
+  - Organize data on Google Cloud (e.g., Cloud Storage, BigQuery)
+  - Keep all data on local disk drives
+  - Transfer data over SFTP to a remote server
+  answer: 2
+  tags:
+  - Data Organization
+  - Model Training
+- question: 'A complex deep learning model requires significant computational power for training. The ML Engineer needs to choose the most appropriate hardware accelerator on Google Cloud for distributed training to maximize performance. Which options are primarily considered for this?'
+  options:
+  - CPU and FPGA
+  - GPU and ASIC
+  - CPU and TPU
+  - GPU and TPU
+  answer: 4
+  tags:
+  - Hardware Selection
+  - Distributed Training
+- question: 'During model training, an ML Engineer encounters unexpected performance degradation and high loss values. The training job is configured to use a custom training pipeline on Vertex AI. What is a listed consideration for resolving such issues?'
+  options:
+  - Increasing the learning rate indefinitely
+  - Decreasing the batch size to zero
+  - Troubleshooting ML model training failures
+  - Switching to a different dataset without validation
+  answer: 3
+  tags:
+  - Model Training
+  - Troubleshooting
+- question: 'A company has a pre-trained large language model and wants to adapt it for a specific domain-specific task with a smaller, labeled dataset. Which technique is explicitly mentioned for adapting foundation models for specific use cases?'
+  options:
+  - Pre-training from scratch
+  - Transfer learning
+  - Fine-tuning foundation models
+  - Knowledge distillation
+  answer: 3
+  tags:
+  - Foundation Models
+  - Fine-tuning
+- question: 'An ML Engineer is selecting a framework for a new computer vision model. The project requires highly optimized performance and access to low-level GPU operations. Which framework would generally be more suitable for this requirement compared to a high-level API like Keras?'
+  options:
+  - Scikit-learn
+  - XGBoost
+  - TensorFlow (low-level APIs)
+  - Spark MLlib
+  answer: 3
+  tags:
+  - ML Frameworks
+  - Performance Optimization
+- question: 'A large e-commerce company needs to ingest terabytes of customer behavior data (structured and semi-structured) into a training pipeline for their recommendation engine. Which Google Cloud service is typically used for scalable data ingestion for training?'
+  options:
+  - Cloud Functions
+  - Cloud SQL
+  - Cloud Storage
+  - Cloud CDN
+  answer: 3
+  tags:
+  - Data Ingestion
+  - Cloud Storage
+- question: 'An ML Engineer is training a large-scale model that requires distributed training across multiple machines. Which Google Cloud service provides managed infrastructure for distributed training of custom models?'
+  options:
+  - BigQuery ML
+  - AutoML
+  - Vertex AI Custom Training
+  - Cloud Functions
+  answer: 3
+  tags:
+  - Model Training
+  - Distributed Training
+  - Vertex AI
+- question: 'A team is using a publicly available foundation model from Model Garden but finds that its performance on their specific domain-specific dataset is suboptimal. What is the recommended strategy to improve the model''s performance for their specific use case?'
+  options:
+  - Re-train the entire foundation model from scratch
+  - Fine-tune the foundation model with their custom dataset
+  - Use the model as is without any changes
+  - Convert the model to a different framework
+  answer: 2
+  tags:
+  - Foundation Models
+  - Fine-tuning
+- question: 'When choosing an ML framework for a new project, a key consideration is the ecosystem and community support available for that framework. What does this primarily influence?'
+  options:
+  - The type of data that can be used
+  - The ease of finding resources, libraries, and troubleshooting help
+  - The physical location of the data storage
+  - The legal compliance of the model
+  answer: 2
+  tags:
+  - ML Frameworks
+  - Community Support
+- question: 'A data pipeline for ML training frequently fails due to inconsistencies in the input CSV files. What aspect of data ingestion should the ML Engineer focus on to prevent such failures?'
+  options:
+  - Accelerating training speed
+  - Data validation
+  - Model deployment strategy
+  - Hyperparameter tuning
+  answer: 2
+  tags:
+  - Data Ingestion
+  - Data Validation
+- question: 'An ML Engineer needs to perform hyperparameter tuning for a custom model to find the optimal set of hyperparameters. Which Vertex AI capability helps in automating and managing this process efficiently?'
+  options:
+  - Vertex AI Feature Store
+  - Vertex AI Workbench
+  - Vertex AI Vizier
+  - Vertex AI Model Monitoring
+  answer: 3
+  tags:
+  - Model Training
+  - Hyperparameter Tuning
+  - Vertex AI Vizier
+- question: 'A company has a generic speech-to-text foundation model but needs to adapt it to recognize specific industry jargon. What is the most effective approach to customize this foundation model for their unique vocabulary?'
+  options:
+  - Training a new speech recognition model from scratch
+  - Fine-tuning the existing speech-to-text foundation model
+  - Using a rule-based system for jargon
+  - Reducing the size of the original model
+  answer: 2
+  tags:
+  - Foundation Models
+  - Fine-tuning
+- question: 'What is a consideration when choosing an ML framework regarding the specific problem being solved, such as text generation or image classification?'
+  options:
+  - Cost of storage
+  - Modeling techniques given problem statement
+  - Network latency
+  - Data governance policies
+  answer: 2
+  tags:
+  - ML Frameworks
+  - Problem Statement
+- question: 'For efficient large-scale training, an ML Engineer needs to ensure that training data is ingested in a format optimized for performance. Which of these file formats is commonly recommended for performance-critical ML training on Google Cloud?'
+  options:
+  - XML
+  - CSV
+  - TFRecord
+  - JSON
+  answer: 3
+  tags:
+  - Data Ingestion
+  - Data Format
+  - TFRecord
+- question: 'An ML Engineer is debugging a custom training job that consistently runs out of memory on the GPU. Which strategy is a common approach to troubleshoot this type of training failure?'
+  options:
+  - Increasing the batch size significantly
+  - Decreasing the model complexity or batch size
+  - Switching to a CPU-only instance
+  - Ignoring memory warnings
+  answer: 2
+  tags:
+  - Model Training
+  - Troubleshooting
+- question: 'A team is experimenting with a new foundation model for natural language understanding. They need to test how well it performs on a small, domain-specific dataset without extensive retraining. Which technique allows for rapid adaptation of foundation models to new tasks?'
+  options:
+  - Deep reinforcement learning
+  - Transfer learning
+  - Quantum machine learning
+  - Federated learning
+  answer: 2
+  tags:
+  - Foundation Models
+  - Transfer Learning
+- question: 'When designing a distributed training strategy, what is a key architectural consideration to ensure efficient communication and synchronization between worker nodes?'
+  options:
+  - Network bandwidth and latency
+  - Local disk space on individual workers
+  - Number of features in the dataset
+  - Type of database used for logging
+  answer: 1
+  tags:
+  - Distributed Training
+  - Network
+- question: 'An ML Engineer is training a model that involves processing large video files. Which Google Cloud service is typically used for scalable storage of such large media files for training data ingestion?'
+  options:
+  - Cloud SQL
+  - BigQuery
+  - Cloud Storage
+  - Cloud Memorystore
+  answer: 3
+  tags:
+  - Data Ingestion
+  - Video Data
+  - Cloud Storage
+- question: 'To improve the performance of a trained model, an ML Engineer is exploring various optimization techniques. Which of these is a valid approach for optimizing trained models, relevant to scaling prototypes?'
+  options:
+  - Increasing the number of training epochs indefinitely
+  - Model quantization and pruning
+  - Adding more layers without regularization
+  - Decreasing the learning rate to zero
+  answer: 2
+  tags:
+  - Model Optimization
+  - Model Quantization
+- question: 'A data scientist prefers working with the Scikit-learn framework for its ease of use and rich set of algorithms. When scaling their prototype to a larger dataset for training on Google Cloud, which approach is suitable?'
+  options:
+  - Rewriting the entire code in TensorFlow
+  - Using Vertex AI Custom Training with a Scikit-learn container
+  - Migrating to BigQuery ML for all models
+  - Only training on a local machine
+  answer: 2
+  tags:
+  - ML Frameworks
+  - Custom Training
+- question: 'An ML Engineer needs to perform data transformations (e.g., normalization, one-hot encoding) on a massive dataset before training. Which Google Cloud service is typically used for large-scale data transformation in batch or streaming mode?'
+  options:
+  - Cloud Functions
+  - Dataflow
+  - Cloud Pub/Sub
+  - Cloud Run
+  answer: 2
+  tags:
+  - Data Preprocessing
+  - Data Transformation
+  - Dataflow
+- question: 'When training models, particularly deep neural networks, what is a key consideration for managing the computational graph and executing operations efficiently across hardware accelerators?'
+  options:
+  - Model serialization format
+  - Graph optimization and execution
+  - Data versioning
+  - Model deployment strategy
+  answer: 2
+  tags:
+  - Model Training
+  - Graph Optimization
+- question: 'A company needs to fine-tune a foundation model for a new language that is not well-represented in the original training data. What is crucial for this fine-tuning process?'
+  options:
+  - Removing all existing layers from the foundation model
+  - Providing a high-quality, labeled dataset in the new language
+  - Training the model exclusively on unlabeled data
+  - Only using a very small learning rate
+  answer: 2
+  tags:
+  - Foundation Models
+  - Fine-tuning
+- question: 'An ML Engineer observes that their training job is running very slowly despite using powerful GPUs. Upon inspection, they find that data loading is a bottleneck. What is a common strategy to optimize data ingestion speed for training?'
+  options:
+  - Using a single-threaded data loader
+  - Implementing parallel data loading and preprocessing
+  - Storing all data on local disk of a single instance
+  - Reducing the overall dataset size
+  answer: 2
+  tags:
+  - Data Ingestion
+  - Performance Optimization
+- question: 'Which Google Cloud service provides a managed service for distributed training with custom containers, allowing flexibility in choosing ML frameworks and dependencies?'
+  options:
+  - AutoML
+  - BigQuery ML
+  - Vertex AI Training
+  - Cloud Functions
+  answer: 3
+  tags:
+  - Model Training
+  - Custom Training
+- question: 'What is a primary goal of fine-tuning a foundation model?'
+  options:
+  - To make the model larger and more complex
+  - To adapt a general-purpose model to a specific task or domain
+  - To reduce the model''s accuracy for a specific task
+  - To train a model from scratch without any pre-existing knowledge
+  answer: 2
+  tags:
+  - Foundation Models
+  - Fine-tuning
+- question: 'When troubleshooting ML model training failures, which of these is a crucial step for diagnosing issues related to model convergence or overfitting?'
+  options:
+  - Deploying the model to production
+  - Analyzing training loss and validation metrics
+  - Disabling all logging
+  - Removing regularization techniques
+  answer: 2
+  tags:
+  - Model Training
+  - Troubleshooting
+  - Model Evaluation
+- question: 'A data scientist wants to use TensorFlow and requires access to advanced features for custom model development. Which Google Cloud service allows them to define custom training jobs with TensorFlow?'
+  options:
+  - BigQuery ML
+  - AutoML Tables
+  - Vertex AI Custom Training
+  - Cloud Dataflow
+  answer: 3
+  tags:
+  - ML Frameworks
+  - Custom Training
+  - TensorFlow
+- question: 'Which aspect of scaling prototypes involves ensuring the model can efficiently process incoming data during training and inference?'
+  options:
+  - Data lineage
+  - Data throughput and latency
+  - Model versioning
+  - Feature store creation
+  answer: 2
+  tags:
+  - Performance Optimization
+  - Data Throughput

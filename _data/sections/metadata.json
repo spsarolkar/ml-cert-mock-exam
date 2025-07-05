@@ -1,0 +1,58 @@
+{
+  "exam_modes": {
+    "quick": {
+      "section_counts": {
+        "section1": 3,
+        "section2": 3,
+        "section3": 4,
+        "section4": 4,
+        "section5": 4,
+        "section6": 2
+      },
+      "duration_minutes": 30
+    },
+    "full": {
+      "section_counts": {
+        "section1": 7,
+        "section2": 9,
+        "section3": 10,
+        "section4": 11,
+        "section5": 13,
+        "section6": 8
+      },
+      "duration_minutes": 120
+    }
+  },
+  "tags": {
+    "section1": [
+      "AutoML",
+      "BigQuery ML",
+      "Vertex AI Agent Builder"
+    ],
+    "section2": [
+      "Data Governance",
+      "TFX",
+      "Collaboration"
+    ],
+    "section3": [
+      "TPU",
+      "Vertex AI",
+      "Model Training"
+    ],
+    "section4": [
+      "Model Serving",
+      "Latency",
+      "Deployment"
+    ],
+    "section5": [
+      "Pipelines",
+      "CI/CD",
+      "Workflow"
+    ],
+    "section6": [
+      "Monitoring",
+      "Bias",
+      "Explainability"
+    ]
+  }
+}
